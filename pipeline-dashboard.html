@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crux Investments Pipeline</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:rgba(100,100,100,0.3);border-radius:2px}
+:root{
+  --color-background-primary:#ffffff;--color-background-secondary:#f1efe8;--color-background-tertiary:#f9f9f7;
+  --color-background-info:#e6f1fb;--color-background-success:#eaf3de;--color-background-warning:#faeeda;--color-background-danger:#fcebeb;
+  --color-text-primary:#2c2c2a;--color-text-secondary:#5f5e5a;--color-text-tertiary:#888780;
+  --color-text-info:#185fa5;--color-text-success:#3b6d11;--color-text-warning:#854f0b;--color-text-danger:#a32d2d;
+  --color-border-tertiary:rgba(44,44,42,0.15);--color-border-secondary:rgba(44,44,42,0.3);--color-border-primary:rgba(44,44,42,0.4);
+  --color-border-info:rgba(24,95,165,0.4);--color-border-success:rgba(59,109,17,0.4);--color-border-warning:rgba(133,79,11,0.4);--color-border-danger:rgba(163,45,45,0.4);
+  --border-radius-md:8px;--border-radius-lg:12px;
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-mono:"SF Mono","Fira Code",monospace;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --color-background-primary:#1a1a18;--color-background-secondary:#252523;--color-background-tertiary:#111110;
+    --color-background-info:#042c53;--color-background-success:#173404;--color-background-warning:#412402;--color-background-danger:#501313;
+    --color-text-primary:#e8e6dc;--color-text-secondary:#b4b2a9;--color-text-tertiary:#888780;
+    --color-text-info:#85b7eb;--color-text-success:#c0dd97;--color-text-warning:#fac775;--color-text-danger:#f09595;
+    --color-border-tertiary:rgba(232,230,220,0.15);--color-border-secondary:rgba(232,230,220,0.3);--color-border-primary:rgba(232,230,220,0.4);
+    --color-border-info:rgba(133,183,235,0.4);--color-border-success:rgba(192,221,151,0.4);--color-border-warning:rgba(250,199,117,0.4);--color-border-danger:rgba(240,149,149,0.4);
+  }
+}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+#nav{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:0 16px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.nav-brand{display:flex;align-items:center;gap:8px}
+.logo{width:22px;height:22px;background:var(--color-text-info);border-radius:5px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:500}
+.nav-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.nav-sub{font-size:12px;color:var(--color-text-tertiary)}
+.nav-tabs{display:flex;gap:2px}
+.tab{background:none;border:0.5px solid transparent;color:var(--color-text-secondary);padding:4px 11px;border-radius:var(--border-radius-md);cursor:pointer;font-size:12px;font-weight:500;font-family:var(--font-sans);transition:all .1s}
+.tab:hover{background:var(--color-background-secondary)}
+.tab.on{background:var(--color-background-secondary);border-color:var(--color-border-secondary);color:var(--color-text-primary)}
+.nav-date{font-size:11px;color:var(--color-text-tertiary)}
+#metrics{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:9px 16px;display:flex;gap:8px;overflow-x:auto;flex-shrink:0}
+.mc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 12px;min-width:120px;flex-shrink:0}
+.ml{font-size:9px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;font-weight:500;margin-bottom:2px}
+.mv{font-size:18px;font-weight:500;font-family:var(--font-mono);line-height:1}
+.ms{font-size:9px;color:var(--color-text-tertiary);margin-top:2px}
+#main{display:flex;flex:1;overflow:hidden}
+#sec-p{flex:1;display:flex;overflow:hidden}
+#board{flex:1;overflow:auto;padding:14px 16px;display:flex;gap:10px;align-items:flex-start}
+.col{min-width:195px;max-width:205px;flex-shrink:0}
+.ch{margin-bottom:8px}
+.ct{font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.cr{display:flex;gap:4px;align-items:center}
+.cc{background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:9px;padding:1px 6px;border-radius:8px}
+.crisk{background:var(--color-background-danger);color:var(--color-text-danger);font-size:9px;padding:1px 6px;border-radius:8px}
+.cv{font-size:9px;color:var(--color-text-tertiary);font-family:var(--font-mono);margin-top:2px}
+.cdiv{border:none;border-top:1.5px solid var(--color-border-tertiary);margin-bottom:8px}
+.dc{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:9px 10px;cursor:pointer;margin-bottom:6px;transition:border-color .1s;position:relative}
+.dc:hover{border-color:var(--color-border-secondary)}
+.dc.sel{border-color:var(--color-border-info);background:var(--color-background-info)}
+.dn{font-size:11px;font-weight:500;color:var(--color-text-primary);line-height:1.3;margin-bottom:2px;padding-right:10px}
+.dsp{font-size:10px;color:var(--color-text-secondary);margin-bottom:5px}
+.drow{display:flex;gap:4px;align-items:center;margin-bottom:5px;flex-wrap:wrap}
+.tb{font-size:9px;font-weight:500;padding:2px 6px;border-radius:4px}
+.tb-s{background:var(--color-background-warning);color:var(--color-text-warning)}
+.tb-w{background:var(--color-background-info);color:var(--color-text-info)}
+.tb-b{background:var(--color-background-success);color:var(--color-text-success)}
+.tb-m{background:var(--color-background-danger);color:var(--color-text-danger)}
+.tb-g{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.dz{font-size:10px;font-weight:500;font-family:var(--font-mono);color:var(--color-text-primary)}
+.dbot{display:flex;justify-content:space-between;align-items:center}
+.dri{font-size:9px;color:var(--color-text-tertiary)}
+.ag{font-size:9px;font-weight:500;padding:2px 5px;border-radius:4px;font-family:var(--font-mono)}
+.ag-g{background:var(--color-background-success);color:var(--color-text-success)}
+.ag-a{background:var(--color-background-warning);color:var(--color-text-warning)}
+.ag-r{background:var(--color-background-danger);color:var(--color-text-danger)}
+.idot{position:absolute;top:7px;right:7px;width:6px;height:6px;border-radius:50%}
+#det{width:320px;flex-shrink:0;background:var(--color-background-primary);border-left:0.5px solid var(--color-border-tertiary);display:none;flex-direction:column;overflow-y:auto}
+.dh{padding:11px 13px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.dhr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.dhn{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.dhx{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);font-size:16px;padding:0;line-height:1;font-family:var(--font-sans)}
+.dsec{padding:11px 13px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.dsl{font-size:9px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+.dg2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dfl{font-size:9px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.dfv{font-size:11px;font-weight:500;color:var(--color-text-primary)}
+.stbox{margin-top:8px;padding:7px 9px;border-radius:var(--border-radius-md);font-size:10px;font-weight:500;line-height:1.4}
+.notion-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:500;color:var(--color-text-tertiary);background:var(--color-background-secondary);padding:2px 7px;border-radius:6px}
+.ws-tabs{display:flex;gap:0;border-bottom:0.5px solid var(--color-border-tertiary);overflow-x:auto}
+.ws-tab{padding:7px 10px;font-size:10px;font-weight:500;color:var(--color-text-tertiary);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .1s;flex-shrink:0}
+.ws-tab:hover{color:var(--color-text-secondary)}
+.ws-tab.on{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
+.ws-tab.on.danger{color:var(--color-text-danger);border-bottom-color:var(--color-text-danger)}
+.ws-tab.on.warning{color:var(--color-text-warning);border-bottom-color:var(--color-text-warning)}
+.ws-tab.on.success{color:var(--color-text-success);border-bottom-color:var(--color-text-success)}
+.ws-content{padding:11px 13px}
+.ws-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.wm-label{font-size:9px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.wm-val{font-size:11px;font-weight:500;color:var(--color-text-primary)}
+.ws-status{display:flex;align-items:center;gap:6px;margin-bottom:10px;padding:6px 8px;border-radius:var(--border-radius-md)}
+.ws-status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.ws-status-text{font-size:10px;font-weight:500}
+.blocker-box{padding:7px 9px;border-radius:var(--border-radius-md);background:var(--color-background-danger);border:0.5px solid var(--color-border-danger);margin-bottom:10px}
+.blocker-label{font-size:9px;font-weight:500;color:var(--color-text-danger);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.blocker-text{font-size:10px;color:var(--color-text-danger);line-height:1.5}
+.dep-box{padding:7px 9px;border-radius:var(--border-radius-md);background:var(--color-background-warning);border:0.5px solid var(--color-border-warning);margin-bottom:10px}
+.dep-label{font-size:9px;font-weight:500;color:var(--color-text-warning);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.dep-text{font-size:10px;color:var(--color-text-warning);line-height:1.5}
+.cl-label{font-size:9px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px}
+.cl-item{display:flex;align-items:flex-start;gap:7px;margin-bottom:6px}
+.cl-check{width:14px;height:14px;border-radius:3px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.cl-check.done{background:var(--color-text-success)}
+.cl-check.pend{border:1.5px solid var(--color-border-secondary);background:transparent}
+.cl-check.block{border:1.5px solid var(--color-border-danger);background:var(--color-background-danger)}
+.cl-text{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+.cl-text.done{color:var(--color-text-tertiary);text-decoration:line-through}
+.cl-text.block{color:var(--color-text-danger)}
+.ai{display:flex;gap:6px;margin-bottom:6px}
+.adot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.at{font-size:10px;line-height:1.5;color:var(--color-text-secondary)}
+.at.fresh{color:var(--color-text-primary)}
+#sec-a{display:none;flex:1;padding:14px 16px;overflow-y:auto}
+#sec-n8n{display:none;flex:1;padding:14px 16px;overflow-y:auto}
+.n8n-header{margin-bottom:16px}
+.n8n-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.n8n-sub{font-size:11px;color:var(--color-text-tertiary)}
+.n8n-feed{display:flex;flex-direction:column}
+.n8n-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.n8n-item:last-child{border:none}
+.n8n-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:2px}
+.n8n-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.n8n-line{width:1px;flex:1;background:var(--color-border-tertiary);margin-top:4px;min-height:16px}
+.n8n-body{flex:1;min-width:0}
+.n8n-trigger{font-size:11px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.n8n-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:5px}
+.n8n-meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.n8n-deal{font-size:9px;font-weight:500;padding:1px 6px;border-radius:4px;background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.n8n-time{font-size:9px;color:var(--color-text-tertiary);font-family:var(--font-mono)}
+.n8n-type{font-size:9px;font-weight:500;padding:1px 6px;border-radius:4px}
+.nt-auto{background:var(--color-background-info);color:var(--color-text-info)}
+.nt-alert{background:var(--color-background-danger);color:var(--color-text-danger)}
+.nt-warn{background:var(--color-background-warning);color:var(--color-text-warning)}
+.nt-ok{background:var(--color-background-success);color:var(--color-text-success)}
+.ag2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.ac{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:13px 15px}
+.act{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:1px}
+.acs{font-size:10px;color:var(--color-text-tertiary);margin-bottom:12px}
+.fr{margin-bottom:8px}
+.flr{display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px;color:var(--color-text-secondary)}
+.flv{font-weight:500;color:var(--color-text-primary);font-family:var(--font-mono)}
+.fbt{background:var(--color-background-secondary);border-radius:3px;height:6px;overflow:hidden}
+.fbf{height:100%;border-radius:3px;opacity:.8}
+.vrow{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.vst{font-size:10px;color:var(--color-text-secondary);width:60px;flex-shrink:0;text-align:right}
+.vtr{flex:1;background:var(--color-background-secondary);border-radius:3px;height:7px;position:relative}
+.vbr{height:100%;border-radius:3px}
+.vtl{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:var(--color-border-primary);border-radius:1px}
+.vval{font-size:9px;font-family:var(--font-mono);color:var(--color-text-tertiary);width:26px;flex-shrink:0}
+.tr2{margin-bottom:9px}
+.tlr{display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px}
+.tbt{background:var(--color-background-secondary);border-radius:3px;height:6px;overflow:hidden}
+.tbf{height:100%;border-radius:3px;opacity:.75}
+.kr{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.kr:last-child{border:none}
+.kl{font-size:10px;color:var(--color-text-secondary)}
+.kd{font-size:9px;margin-top:1px}
+.kv{font-size:12px;font-weight:500;font-family:var(--font-mono);color:var(--color-text-primary)}
+</style>
+</head>
+<body>
+<div id="nav">
+  <div class="nav-brand"><div class="logo">C</div><span class="nav-title">Crux</span><span class="nav-sub" style="margin-left:4px">/ Investments Pipeline</span></div>
+  <div class="nav-tabs">
+    <button class="tab on" onclick="sw('p',this)">Pipeline</button>
+    <button class="tab" onclick="sw('a',this)">Analytics</button>
+    <button class="tab" onclick="sw('n',this)">Automation log</button>
+  </div>
+  <span class="nav-date">Mar 18, 2026</span>
+</div>
+<div id="metrics">
+  <div class="mc"><div class="ml">Active deals</div><div class="mv">11</div><div class="ms">all stages</div></div>
+  <div class="mc"><div class="ml">Pipeline value</div><div class="mv" style="color:var(--color-text-info)">$2.27B</div><div class="ms">tax equity + pref equity</div></div>
+  <div class="mc"><div class="ml">Avg age</div><div class="mv">16d</div><div class="ms">active deals</div></div>
+  <div class="mc"><div class="ml">At risk</div><div class="mv" style="color:var(--color-text-danger)">1</div><div class="ms">3 need attention</div></div>
+  <div class="mc"><div class="ml">Near committee</div><div class="mv" style="color:var(--color-text-warning)">2</div><div class="ms">in structuring</div></div>
+  <div class="mc"><div class="ml">Near close</div><div class="mv" style="color:var(--color-text-success)">2</div><div class="ms">in negotiation</div></div>
+</div>
+<div id="main">
+
+<div id="sec-p">
+<div id="board">
+  <div class="col">
+    <div class="ch"><div class="ct">Intake</div><div class="cr"><span class="cc">2 deals</span></div><div class="cv">$420M</div></div>
+    <hr class="cdiv">
+    <div class="dc" onclick="od(1,this)"><div class="dn">Solar Project A</div><div class="dsp">Sponsor A</div><div class="drow"><span class="tb tb-s">Solar</span><span class="dz">$180M</span></div><div class="dbot"><span class="dri">Owner 1</span><span class="ag ag-g">d+3</span></div></div>
+    <div class="dc" onclick="od(2,this)"><div class="dn">Wind Project A</div><div class="dsp">Sponsor B</div><div class="drow"><span class="tb tb-w">Wind</span><span class="dz">$240M</span></div><div class="dbot"><span class="dri">Owner 2</span><span class="ag ag-g">d+1</span></div></div>
+  </div>
+  <div class="col">
+    <div class="ch"><div class="ct">Initial Screen</div><div class="cr"><span class="cc">2 deals</span></div><div class="cv">$415M</div></div>
+    <hr class="cdiv">
+    <div class="dc" onclick="od(3,this)"><div class="dn">Storage Project A</div><div class="dsp">Sponsor C</div><div class="drow"><span class="tb tb-b">Storage</span><span class="dz">$95M</span></div><div class="dbot"><span class="dri">Owner 2</span><span class="ag ag-g">d+6</span></div></div>
+    <div class="dc" onclick="od(4,this)"><div class="idot" style="background:var(--color-text-warning)"></div><div class="dn">Wind Project B</div><div class="dsp">Sponsor D</div><div class="drow"><span class="tb tb-w">Wind</span><span class="dz">$320M</span></div><div class="dbot"><span class="dri">Owner 1</span><span class="ag ag-a">d+14</span></div></div>
+  </div>
+  <div class="col">
+    <div class="ch"><div class="ct">Due Diligence</div><div class="cr"><span class="crisk">1 at risk</span><span class="cc">3 deals</span></div><div class="cv">$760M</div></div>
+    <hr class="cdiv">
+    <div class="dc" onclick="od(5,this)"><div class="dn">Solar Project B</div><div class="dsp">Sponsor E</div><div class="drow"><span class="tb tb-s">Solar</span><span class="dz">$210M</span></div><div class="dbot"><span class="dri">Owner 2</span><span class="ag ag-g">d+19</span></div></div>
+    <div class="dc" onclick="od(6,this)"><div class="idot" style="background:var(--color-text-danger)"></div><div class="dn">Manufacturing Project A</div><div class="dsp">Sponsor F</div><div class="drow"><span class="tb tb-m">Manufacturing</span><span class="dz">$150M</span></div><div class="dbot"><span class="dri">Owner 1</span><span class="ag ag-r">d+52</span></div></div>
+    <div class="dc" onclick="od(7,this)"><div class="idot" style="background:var(--color-text-warning)"></div><div class="dn">Wind Project C</div><div class="dsp">Sponsor G</div><div class="drow"><span class="tb tb-w">Wind</span><span class="dz">$400M</span></div><div class="dbot"><span class="dri">Owner 2</span><span class="ag ag-g">d+24</span></div></div>
+  </div>
+  <div class="col">
+    <div class="ch"><div class="ct">Committee Review</div><div class="cr"><span class="cc">2 deals</span></div><div class="cv">$465M</div></div>
+    <hr class="cdiv">
+    <div class="dc" onclick="od(8,this)"><div class="dn">Storage Project B</div><div class="dsp">Sponsor H</div><div class="drow"><span class="tb tb-b">Storage</span><span class="dz">$175M</span></div><div class="dbot"><span class="dri">Owner 2</span><span class="ag ag-g">d+7</span></div></div>
+    <div class="dc" onclick="od(9,this)"><div class="dn">Solar Project C</div><div class="dsp">Sponsor I</div><div class="drow"><span class="tb tb-s">Solar</span><span class="dz">$290M</span></div><div class="dbot"><span class="dri">Owner 1</span><span class="ag ag-g">d+18</span></div></div>
+  </div>
+  <div class="col">
+    <div class="ch"><div class="ct">Negotiate &amp; Close</div><div class="cr"><span class="cc">2 deals</span></div><div class="cv">$205M</div></div>
+    <hr class="cdiv">
+    <div class="dc" onclick="od(10,this)"><div class="dn">Geothermal Project A</div><div class="dsp">Sponsor J</div><div class="drow"><span class="tb tb-g">Geothermal</span><span class="dz">$120M</span></div><div class="dbot"><span class="dri">Owner 2</span><span class="ag ag-g">d+22</span></div></div>
+    <div class="dc" onclick="od(11,this)"><div class="dn">Storage Project C</div><div class="dsp">Sponsor K</div><div class="drow"><span class="tb tb-b">Storage</span><span class="dz">$85M</span></div><div class="dbot"><span class="dri">Owner 1</span><span class="ag ag-g">d+9</span></div></div>
+  </div>
+</div>
+
+<div id="det">
+  <div class="dh"><div class="dhr"><div class="dhn" id="d-n"></div><button class="dhx" onclick="cd()">×</button></div><div style="display:flex;gap:4px;margin-top:4px" id="d-b"></div></div>
+  <div class="dsec"><div class="dg2" id="d-i"></div><div class="stbox" id="d-st"></div></div>
+  <div id="d-notion"></div>
+  <div class="dsec" style="flex:1"><div class="dsl">Recent activity</div><div id="d-ac"></div></div>
+</div>
+</div>
+
+<div id="sec-a">
+<div class="ag2">
+  <div class="ac"><div class="act">Historical conversion</div><div class="acs">12-month deal flow from intake through close</div>
+    <div class="fr"><div class="flr"><span>Evaluated</span><span class="flv">48 <span style="color:var(--color-text-tertiary);font-weight:400">100%</span></span></div><div class="fbt"><div class="fbf" style="width:100%;background:var(--color-text-info)"></div></div><div style="font-size:9px;color:var(--color-text-tertiary);margin-top:2px">$8.4B evaluated</div></div>
+    <div class="fr"><div class="flr"><span>Passed screen</span><span class="flv">31 <span style="color:var(--color-text-tertiary);font-weight:400">65%</span></span></div><div class="fbt"><div class="fbf" style="width:65%;background:var(--color-text-info)"></div></div></div>
+    <div class="fr"><div class="flr"><span>Entered due diligence</span><span class="flv">22 <span style="color:var(--color-text-tertiary);font-weight:400">71%</span></span></div><div class="fbt"><div class="fbf" style="width:46%;background:var(--color-text-info)"></div></div></div>
+    <div class="fr"><div class="flr"><span>Reached committee</span><span class="flv">16 <span style="color:var(--color-text-tertiary);font-weight:400">73%</span></span></div><div class="fbt"><div class="fbf" style="width:33%;background:var(--color-text-info)"></div></div></div>
+    <div class="fr"><div class="flr"><span>Closed</span><span class="flv" style="color:var(--color-text-success)">11 <span style="color:var(--color-text-tertiary);font-weight:400">69%</span></span></div><div class="fbt"><div class="fbf" style="width:23%;background:var(--color-text-success)"></div></div><div style="font-size:9px;color:var(--color-text-tertiary);margin-top:2px">$2.1B deployed</div></div>
+  </div>
+  <div class="ac"><div class="act">Stage velocity vs. target</div><div class="acs">Due diligence is the bottleneck at 38d vs. 30d target</div>
+    <div class="vrow"><span class="vst">Intake</span><div class="vtr"><div class="vbr" style="width:71%;background:var(--color-text-success);height:100%;border-radius:3px"></div><div class="vtl" style="left:100%"></div></div><span class="vval">5d</span></div>
+    <div class="vrow"><span class="vst">Screen</span><div class="vtr"><div class="vbr" style="width:90%;background:var(--color-text-success);height:100%;border-radius:3px"></div><div class="vtl" style="left:100%"></div></div><span class="vval">9d</span></div>
+    <div class="vrow"><span class="vst">Due diligence</span><div class="vtr"><div class="vbr" style="width:100%;background:var(--color-text-warning);height:100%;border-radius:3px"></div><div class="vtl" style="left:79%"></div></div><span class="vval" style="color:var(--color-text-warning);font-weight:500">38d</span></div>
+    <div class="vrow"><span class="vst">Committee</span><div class="vtr"><div class="vbr" style="width:78%;background:var(--color-text-success);height:100%;border-radius:3px"></div><div class="vtl" style="left:100%"></div></div><span class="vval">14d</span></div>
+    <div class="vrow"><span class="vst">Close</span><div class="vtr"><div class="vbr" style="width:62%;background:var(--color-text-success);height:100%;border-radius:3px"></div><div class="vtl" style="left:100%"></div></div><span class="vval">28d</span></div>
+    <div style="display:flex;gap:10px;margin-top:6px;font-size:9px;color:var(--color-text-tertiary)"><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:var(--color-text-success);display:inline-block"></span>On track</span><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:var(--color-text-warning);display:inline-block"></span>Over target</span><span style="display:flex;align-items:center;gap:4px"><span style="width:1.5px;height:10px;background:var(--color-border-primary);display:inline-block"></span>Target</span></div>
+  </div>
+  <div class="ac"><div class="act">Pipeline by technology</div><div class="acs">Active deals · current value</div>
+    <div class="tr2"><div class="tlr"><span style="color:var(--color-text-info);font-weight:500">Wind</span><span style="font-family:var(--font-mono);font-size:10px">$960M · 3 deals</span></div><div class="tbt"><div class="tbf" style="width:100%;background:var(--color-text-info)"></div></div></div>
+    <div class="tr2"><div class="tlr"><span style="color:var(--color-text-warning);font-weight:500">Solar</span><span style="font-family:var(--font-mono);font-size:10px">$680M · 3 deals</span></div><div class="tbt"><div class="tbf" style="width:71%;background:var(--color-text-warning)"></div></div></div>
+    <div class="tr2"><div class="tlr"><span style="color:var(--color-text-success);font-weight:500">Storage</span><span style="font-family:var(--font-mono);font-size:10px">$355M · 3 deals</span></div><div class="tbt"><div class="tbf" style="width:37%;background:var(--color-text-success)"></div></div></div>
+    <div class="tr2"><div class="tlr"><span style="color:var(--color-text-danger);font-weight:500">Manufacturing</span><span style="font-family:var(--font-mono);font-size:10px">$150M · 1 deal</span></div><div class="tbt"><div class="tbf" style="width:16%;background:var(--color-text-danger)"></div></div></div>
+    <div class="tr2"><div class="tlr"><span style="color:var(--color-text-secondary);font-weight:500">Geothermal</span><span style="font-family:var(--font-mono);font-size:10px">$120M · 1 deal</span></div><div class="tbt"><div class="tbf" style="width:13%;background:var(--color-text-secondary)"></div></div></div>
+  </div>
+  <div class="ac"><div class="act">Key metrics</div><div class="acs">Pipeline health at a glance</div>
+    <div class="kr"><div><div class="kl">Avg intake to close</div><div class="kd" style="color:var(--color-text-success)">↓ 12d vs. prior cohort</div></div><div class="kv">94d</div></div>
+    <div class="kr"><div><div class="kl">Intake to close conversion</div><div class="kd" style="color:var(--color-text-tertiary)">Industry avg 15–20%</div></div><div class="kv">23%</div></div>
+    <div class="kr"><div><div class="kl">Active pipeline value</div><div class="kd" style="color:var(--color-text-tertiary)">vs. $2.5B deployment target</div></div><div class="kv">$2.27B</div></div>
+    <div class="kr"><div><div class="kl">Committee approval rate</div><div class="kd" style="color:var(--color-text-success)">↑ 5pts vs. prior cohort</div></div><div class="kv">73%</div></div>
+    <div class="kr"><div><div class="kl">Due diligence over target</div><div class="kd" style="color:var(--color-text-warning)">1 deal stalled >50d</div></div><div class="kv">27%</div></div>
+    <div class="kr"><div><div class="kl">Team capacity</div><div class="kd" style="color:var(--color-text-tertiary)">Owner 1: 6 · Owner 2: 5</div></div><div class="kv">~89%</div></div>
+  </div>
+</div>
+</div>
+
+<div id="sec-n8n">
+  <div class="n8n-header">
+    <div class="n8n-title">Automation log</div>
+    <div class="n8n-sub">Recent workflows fired by n8n across all active deals</div>
+  </div>
+  <div class="n8n-feed">
+    <div class="n8n-item"><div class="n8n-left"><div class="n8n-dot" style="background:var(--color-text-danger)"></div><div class="n8n-line"></div></div><div class="n8n-body"><div class="n8n-trigger">Stall alert fired</div><div class="n8n-desc">Manufacturing Project A has been in due diligence for 52 days. Legal workstream has had no update in 14 days. Alert sent to Owner 1.</div><div class="n8n-meta"><span class="n8n-deal">Manufacturing Project A</span><span class="n8n-type nt-alert">Stall alert</span><span class="n8n-time">Mar 18, 09:00</span></div></div></div>
+    <div class="n8n-item"><div class="n8n-left"><div class="n8n-dot" style="background:var(--color-text-info)"></div><div class="n8n-line"></div></div><div class="n8n-body"><div class="n8n-trigger">Committee slot held</div><div class="n8n-desc">Solar Project C advanced to Committee Review. Committee calendar slot auto-reserved for Mar 25. Memo template pre-filled from HubSpot fields and assigned to Owner 1.</div><div class="n8n-meta"><span class="n8n-deal">Solar Project C</span><span class="n8n-type nt-auto">Auto trigger</span><span class="n8n-time">Mar 18, 08:45</span></div></div></div>
+    <div class="n8n-item"><div class="n8n-left"><div class="n8n-dot" style="background:var(--color-text-success)"></div><div class="n8n-line"></div></div><div class="n8n-body"><div class="n8n-trigger">Stage advanced</div><div class="n8n-desc">Solar Project C moved from Due Diligence to Committee Review. Owner 1 notified via Slack with link to HubSpot record and committee memo template.</div><div class="n8n-meta"><span class="n8n-deal">Solar Project C</span><span class="n8n-type nt-ok">Stage advance</span><span class="n8n-time">Mar 18, 08:44</span></div></div></div>
+    <div class="n8n-item"><div class="n8n-left"><div class="n8n-dot" style="background:var(--color-text-info)"></div><div class="n8n-line"></div></div><div class="n8n-body"><div class="n8n-trigger">Intake record created</div><div class="n8n-desc">Wind Project A submitted via intake portal. HubSpot deal record auto-created. Owner 2 assigned as coverage lead. Confirmation sent to sponsor.</div><div class="n8n-meta"><span class="n8n-deal">Wind Project A</span><span class="n8n-type nt-auto">Auto trigger</span><span class="n8n-time">Mar 17, 14:22</span></div></div></div>
+    <div class="n8n-item"><div class="n8n-left"><div class="n8n-dot" style="background:var(--color-text-info)"></div><div class="n8n-line"></div></div><div class="n8n-body"><div class="n8n-trigger">Intake record created</div><div class="n8n-desc">Solar Project A submitted via intake portal. HubSpot deal record auto-created. Owner 1 assigned as coverage lead. Confirmation sent to sponsor.</div><div class="n8n-meta"><span class="n8n-deal">Solar Project A</span><span class="n8n-type nt-auto">Auto trigger</span><span class="n8n-time">Mar 17, 11:05</span></div></div></div>
+    <div class="n8n-item"><div class="n8n-left"><div class="n8n-dot" style="background:var(--color-text-warning)"></div><div class="n8n-line"></div></div><div class="n8n-body"><div class="n8n-trigger">Workstream stall alert</div><div class="n8n-desc">Wind Project C technical diligence workstream has had no update in 7 days. Alert sent to Owner 2. Offshore specialist engaged but no report submitted.</div><div class="n8n-meta"><span class="n8n-deal">Wind Project C</span><span class="n8n-type nt-warn">Stall alert</span><span class="n8n-time">Mar 17, 09:00</span></div></div></div>
+    <div class="n8n-item"><div class="n8n-left"><div class="n8n-dot" style="background:var(--color-text-info)"></div><div class="n8n-line"></div></div><div class="n8n-body"><div class="n8n-trigger">Monday pipeline snapshot sent</div><div class="n8n-desc">Weekly pipeline summary auto-generated and distributed to investments team. 11 active deals, $2.27B total value, 1 deal at risk, 2 near committee.</div><div class="n8n-meta"><span class="n8n-deal">All deals</span><span class="n8n-type nt-auto">Scheduled</span><span class="n8n-time">Mar 17, 08:00</span></div></div></div>
+    <div class="n8n-item"><div class="n8n-left"><div class="n8n-dot" style="background:var(--color-text-info)"></div><div class="n8n-line"></div></div><div class="n8n-body"><div class="n8n-trigger">Notion workspace generated</div><div class="n8n-desc">Storage Project B advanced to Due Diligence. Notion workspace auto-created with five workstream tabs. Workstream owners notified with direct links to their tabs.</div><div class="n8n-meta"><span class="n8n-deal">Storage Project B</span><span class="n8n-type nt-auto">Auto trigger</span><span class="n8n-time">Mar 11, 16:30</span></div></div></div>
+    <div class="n8n-item"><div class="n8n-left"><div class="n8n-dot" style="background:var(--color-text-success)"></div><div class="n8n-line"></div></div><div class="n8n-body"><div class="n8n-trigger">Due diligence complete</div><div class="n8n-desc">All five workstreams marked complete for Storage Project B. Owner 2 notified. Deal advanced to Structuring. Committee slot auto-reserved.</div><div class="n8n-meta"><span class="n8n-deal">Storage Project B</span><span class="n8n-type nt-ok">Stage advance</span><span class="n8n-time">Mar 11, 15:00</span></div></div></div>
+    <div class="n8n-item"><div class="n8n-left"><div class="n8n-dot" style="background:var(--color-text-info)"></div><div class="n8n-line"></div></div><div class="n8n-body"><div class="n8n-trigger">Notion workspace generated</div><div class="n8n-desc">Wind Project C entered Due Diligence. Notion workspace auto-created. Five workstream owners notified. Offshore specialist identified as technical lead.</div><div class="n8n-meta"><span class="n8n-deal">Wind Project C</span><span class="n8n-type nt-auto">Auto trigger</span><span class="n8n-time">Feb 21, 10:15</span></div></div></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const sc={'success':'var(--color-text-success)','warning':'var(--color-text-warning)','danger':'var(--color-text-danger)'};
+const bg={'success':'background:var(--color-background-success);color:var(--color-text-success);border:0.5px solid var(--color-border-success)','warning':'background:var(--color-background-warning);color:var(--color-text-warning);border:0.5px solid var(--color-border-warning)','danger':'background:var(--color-background-danger);color:var(--color-text-danger);border:0.5px solid var(--color-border-danger)'};
+const D={
+  1:{name:'Solar Project A',sp:'Sponsor A',tech:'Solar',tc:'tb-s',sz:'$180M',stage:'Intake',loc:'West TX',cr:'$22M tax credit',dri:'Owner 1',src:'Partner intro',st:{t:'Initial materials received. Portal submission complete.',c:'success'},notion:null,ac:['Mar 17 — Auto-assigned to Owner 1 via intake workflow','Mar 17 — Intake form submitted via sponsor portal']},
+  2:{name:'Wind Project A',sp:'Sponsor B',tech:'Wind',tc:'tb-w',sz:'$240M',stage:'Intake',loc:'Iowa',cr:'$31M tax credit',dri:'Owner 2',src:'Direct inbound',st:{t:'Awaiting project materials from sponsor.',c:'success'},notion:null,ac:['Mar 17 — Intake form received. Owner 2 assigned.']},
+  3:{name:'Storage Project A',sp:'Sponsor C',tech:'Storage',tc:'tb-b',sz:'$95M',stage:'Initial Screen',loc:'Arizona',cr:'$18M tax credit',dri:'Owner 2',src:'Partner intro',st:{t:'Screening memo in progress. On track for pitch meeting.',c:'success'},notion:null,ac:['Mar 13 — Screening memo started','Mar 12 — Assigned to Owner 2','Mar 10 — Passed intake']},
+  4:{name:'Wind Project B',sp:'Sponsor D',tech:'Wind',tc:'tb-w',sz:'$320M',stage:'Initial Screen',loc:'Wyoming',cr:'$45M tax credit',dri:'Owner 1',src:'Partner intro',st:{t:'Pitch meeting rescheduled twice. New date to be confirmed.',c:'warning'},notion:null,ac:['Mar 14 — Meeting rescheduled again by sponsor','Mar 10 — Rescheduled by sponsor','Mar 5 — Pitch meeting scheduled','Mar 3 — Passed intake']},
+  5:{name:'Solar Project B',sp:'Sponsor E',tech:'Solar',tc:'tb-s',sz:'$210M',stage:'Due Diligence',loc:'New Mexico',cr:'$28M tax credit',dri:'Owner 2',src:'Strategic investor',st:{t:'On track. All workstreams progressing.',c:'success'},
+    notion:{tabs:[
+      {name:'Financial',status:'success',owner:'Internal',deadline:'Mar 20',blocker:null,dep:null,items:[{t:'Financial model v3 built',done:true},{t:'Base case and downside scenarios completed',done:true},{t:'Return analysis reviewed by deal owner',done:true},{t:'Sensitivity analysis on energy output',done:false}]},
+      {name:'Legal',status:'success',owner:'External Counsel',deadline:'Mar 24',blocker:null,dep:null,items:[{t:'Ownership structure reviewed',done:true},{t:'PPA contract reviewed',done:true},{t:'Partnership agreement draft reviewed',done:false},{t:'Tax credit eligibility confirmed',done:false}]},
+      {name:'Technical',status:'warning',owner:'Independent Engineer',deadline:'Mar 22',blocker:null,dep:null,items:[{t:'Site visit completed',done:true},{t:'Equipment specs reviewed',done:true},{t:'Energy production estimate validated',done:false},{t:'IE report submitted',done:false}]},
+      {name:'Insurance',status:'success',owner:'Insurance Broker',deadline:'Mar 23',blocker:null,dep:null,items:[{t:'Coverage assessment submitted',done:true},{t:'Recapture risk reviewed',done:true},{t:'Final insurance recommendation',done:false}]},
+      {name:'Environmental',status:'success',owner:'Env. Consultant',deadline:'Mar 18',blocker:null,dep:null,items:[{t:'Phase I assessment complete',done:true},{t:'Permits verified',done:true},{t:'No regulatory issues flagged',done:true}]}
+    ]},
+    ac:['Mar 15 — Technical report pending Mar 22','Mar 10 — Legal Phase 1 complete','Mar 5 — Financial model v3 delivered','Feb 27 — Entered due diligence']},
+  6:{name:'Manufacturing Project A',sp:'Sponsor F',tech:'Manufacturing',tc:'tb-m',sz:'$150M',stage:'Due Diligence',loc:'Ohio',cr:'$30M tax credit',dri:'Owner 1',src:'Co-investor intro',st:{t:'Legal stalled. Conflict check unresolved 3 weeks. Escalated.',c:'danger'},
+    notion:{tabs:[
+      {name:'Financial',status:'success',owner:'Internal',deadline:'Mar 10',blocker:null,dep:null,items:[{t:'Financial model complete',done:true},{t:'Return analysis approved',done:true},{t:'Tax credit sizing confirmed',done:true}]},
+      {name:'Legal',status:'danger',owner:'Outside Counsel',deadline:'Mar 15',blocker:'Conflict check unresolved for 3 weeks. New counsel being sourced.',dep:null,items:[{t:'Ownership structure review',done:true},{t:'Conflict check cleared',done:false,block:true},{t:'Partnership agreement drafted',done:false,block:true},{t:'Tax credit eligibility confirmed',done:false,block:true}]},
+      {name:'Technical',status:'success',owner:'Independent Engineer',deadline:'Mar 8',blocker:null,dep:null,items:[{t:'Facility inspection complete',done:true},{t:'Production capacity validated',done:true},{t:'IE report delivered',done:true}]},
+      {name:'Insurance',status:'warning',owner:'Insurance Broker',deadline:'Mar 22',blocker:null,dep:'Waiting on legal clearance before finalizing coverage terms.',items:[{t:'Initial assessment submitted',done:true},{t:'Final coverage recommendation',done:false}]},
+      {name:'Environmental',status:'success',owner:'N/A',deadline:'N/A',blocker:null,dep:null,items:[{t:'Not required for manufacturing deal',done:true}]}
+    ]},
+    ac:['Mar 15 — No resolution. New counsel search ongoing.','Mar 10 — New counsel search initiated','Mar 1 — Escalated internally','Feb 20 — Legal conflict flagged','Feb 4 — Entered due diligence']},
+  7:{name:'Wind Project C',sp:'Sponsor G',tech:'Wind',tc:'tb-w',sz:'$400M',stage:'Due Diligence',loc:'Gulf of Mexico',cr:'$62M tax credit',dri:'Owner 2',src:'Direct',st:{t:'Complex deal. Three workstreams need attention.',c:'warning'},
+    notion:{tabs:[
+      {name:'Financial',status:'warning',owner:'Internal',deadline:'Mar 28',blocker:null,dep:'Waiting on technical output to finalize energy production assumptions.',items:[{t:'Initial model built',done:true},{t:'Offshore complexity adjustments',done:false},{t:'Final model with IE inputs',done:false},{t:'Return analysis',done:false}]},
+      {name:'Legal',status:'success',owner:'Outside Counsel',deadline:'Mar 25',blocker:null,dep:null,items:[{t:'Ownership structure review initiated',done:true},{t:'PPA contract review',done:false},{t:'Offshore-specific provisions reviewed',done:false}]},
+      {name:'Technical',status:'warning',owner:'Offshore Specialist',deadline:'Mar 26',blocker:null,dep:null,items:[{t:'Offshore specialist engaged',done:true},{t:'Site conditions assessment',done:false},{t:'Energy production estimate',done:false},{t:'Technical report submitted',done:false}]},
+      {name:'Insurance',status:'success',owner:'Insurance Broker',deadline:'Mar 27',blocker:null,dep:null,items:[{t:'Initial assessment started',done:true},{t:'Offshore coverage review',done:false}]},
+      {name:'Environmental',status:'warning',owner:'Env. Consultant',deadline:'Mar 24',blocker:null,dep:null,items:[{t:'Review initiated',done:true},{t:'Offshore environmental assessment',done:false},{t:'Regulatory clearance confirmed',done:false}]}
+    ]},
+    ac:['Mar 15 — Term sheet discussions started','Mar 10 — Co-investor group call held','Mar 1 — Offshore specialist engaged','Feb 21 — Entered due diligence']},
+  8:{name:'Storage Project B',sp:'Sponsor H',tech:'Storage',tc:'tb-b',sz:'$175M',stage:'Committee Review',loc:'California',cr:'$24M tax credit',dri:'Owner 2',src:'Partner referral',st:{t:'Committee memo in drafting. Slot confirmed Mar 25.',c:'success'},notion:null,ac:['Mar 15 — Committee memo draft in progress','Mar 11 — Entered structuring. Committee slot auto-reserved.','Mar 5 — Due diligence complete']},
+  9:{name:'Solar Project C',sp:'Sponsor I',tech:'Solar',tc:'tb-s',sz:'$290M',stage:'Committee Review',loc:'Multi-state',cr:'$38M tax credit',dri:'Owner 1',src:'Strategic investor',st:{t:'Memo submitted. Committee meeting confirmed Mar 25.',c:'success'},notion:null,ac:['Mar 18 — Committee call confirmed for Mar 25','Mar 18 — Stage advanced. Committee slot auto-reserved by n8n.','Mar 15 — Memo submitted','Mar 3 — Entered structuring']},
+  10:{name:'Geothermal Project A',sp:'Sponsor J',tech:'Geothermal',tc:'tb-g',sz:'$120M',stage:'Negotiate & Close',loc:'Nevada',cr:'$18M tax credit',dri:'Owner 2',src:'Partner intro',st:{t:'Documents in negotiation. Redlines exchanged on partnership agreement.',c:'success'},notion:null,ac:['Mar 15 — Redlines exchanged on partnership agreement','Mar 10 — Entered negotiation','Mar 1 — Committee approved']},
+  11:{name:'Storage Project C',sp:'Sponsor K',tech:'Storage',tc:'tb-b',sz:'$85M',stage:'Negotiate & Close',loc:'MA/CT',cr:'$12M tax credit',dri:'Owner 1',src:'Co-investor intro',st:{t:'On track to close Apr 1. All closing conditions being satisfied.',c:'success'},notion:null,ac:['Mar 15 — Closing conditions on track','Mar 10 — Entered close','Mar 1 — Committee approved']}
+};
+
+let curDeal=null,curTab=0;
+
+function sw(t,el){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('sec-p').style.display=t==='p'?'flex':'none';
+  document.getElementById('sec-a').style.display=t==='a'?'flex':'none';
+  document.getElementById('sec-n8n').style.display=t==='n'?'flex':'none';
+  if(t!=='p'){document.getElementById('det').style.display='none';document.querySelectorAll('.dc').forEach(c=>c.classList.remove('sel'));curDeal=null;}
+}
+
+function renderNotionTab(notion,tabIdx){
+  const tab=notion.tabs[tabIdx];
+  const sc2={success:'var(--color-text-success)',warning:'var(--color-text-warning)',danger:'var(--color-text-danger)'};
+  const done=tab.items.filter(i=>i.done).length;
+  const pct=Math.round(done/tab.items.length*100);
+  let h=`<div class="ws-content"><div class="ws-meta"><div><div class="wm-label">Owner</div><div class="wm-val">${tab.owner}</div></div><div><div class="wm-label">Deadline</div><div class="wm-val">${tab.deadline}</div></div></div>
+  <div class="ws-status" style="background:var(--color-background-${tab.status})"><div class="ws-status-dot" style="background:${sc2[tab.status]}"></div><span class="ws-status-text" style="color:${sc2[tab.status]}">${pct}% complete (${done}/${tab.items.length} items)</span></div>`;
+  if(tab.blocker)h+=`<div class="blocker-box"><div class="blocker-label">Blocker</div><div class="blocker-text">${tab.blocker}</div></div>`;
+  if(tab.dep)h+=`<div class="dep-box"><div class="dep-label">Dependency</div><div class="dep-text">${tab.dep}</div></div>`;
+  h+=`<div class="cl-label">Checklist</div>`;
+  tab.items.forEach(item=>{
+    const cls=item.block?'block':item.done?'done':'pend';
+    h+=`<div class="cl-item"><div class="cl-check ${cls}">${item.done?'<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>':item.block?'<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 3l4 4M7 3l-4 4" stroke="var(--color-text-danger)" stroke-width="1.5" stroke-linecap="round"/></svg>':''}</div><span class="cl-text ${cls}">${item.t}</span></div>`;
+  });
+  return h+'</div>';
+}
+
+function renderNotion(notion){
+  const tabs=notion.tabs.map((t,i)=>`<div class="ws-tab${curTab===i?' on':''} ${curTab===i?t.status:''}" onclick="switchTab(${i})">${t.name}</div>`).join('');
+  return `<div class="dsec" style="padding:0"><div style="padding:8px 13px 0;display:flex;align-items:center;justify-content:space-between"><div class="dsl" style="margin-bottom:6px">Due diligence workspace</div><span class="notion-badge">via Notion</span></div><div class="ws-tabs" id="ws-tabs">${tabs}</div><div id="ws-body">${renderNotionTab(notion,curTab)}</div></div>`;
+}
+
+function switchTab(i){
+  curTab=i;
+  const d=D[curDeal];if(!d||!d.notion)return;
+  document.getElementById('ws-tabs').innerHTML=d.notion.tabs.map((t,idx)=>`<div class="ws-tab${idx===i?' on':''} ${idx===i?t.status:''}" onclick="switchTab(${idx})">${t.name}</div>`).join('');
+  document.getElementById('ws-body').innerHTML=renderNotionTab(d.notion,i);
+}
+
+function od(id,el){
+  const d=D[id];if(!d)return;
+  curDeal=id;curTab=0;
+  document.querySelectorAll('.dc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('d-n').textContent=d.name;
+  document.getElementById('d-b').innerHTML=`<span class="tb ${d.tc}">${d.tech}</span><span class="tb tb-g">${d.stage}</span>`;
+  const flds=[['Deal size',d.sz],['Tax credit',d.cr],['Location',d.loc],['Deal owner',d.dri],['Sponsor',d.sp],['Source',d.src]];
+  document.getElementById('d-i').innerHTML=flds.map(([l,v])=>`<div><div class="dfl">${l}</div><div class="dfv">${v}</div></div>`).join('');
+  document.getElementById('d-st').setAttribute('style',bg[d.st.c]);
+  document.getElementById('d-st').textContent=d.st.t;
+  document.getElementById('d-notion').innerHTML=d.notion?renderNotion(d.notion):'';
+  document.getElementById('d-ac').innerHTML=d.ac.map((a,i)=>`<div class="ai"><div class="adot" style="background:${i===0?'var(--color-text-info)':'var(--color-border-secondary)'}"></div><div class="at${i===0?' fresh':''}">${a}</div></div>`).join('');
+  const det=document.getElementById('det');det.style.display='flex';det.style.flexDirection='column';
+}
+
+function cd(){
+  document.getElementById('det').style.display='none';
+  document.querySelectorAll('.dc').forEach(c=>c.classList.remove('sel'));
+  curDeal=null;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crux Investment Pipeline — Stage Gate</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --color-background-primary:#ffffff;--color-background-secondary:#f1efe8;--color-background-tertiary:#f9f9f7;
+  --color-background-info:#e6f1fb;--color-background-success:#eaf3de;--color-background-warning:#faeeda;--color-background-danger:#fcebeb;
+  --color-text-primary:#2c2c2a;--color-text-secondary:#5f5e5a;--color-text-tertiary:#888780;
+  --color-text-info:#185fa5;--color-text-success:#3b6d11;--color-text-warning:#854f0b;--color-text-danger:#a32d2d;
+  --color-border-tertiary:rgba(44,44,42,0.15);--color-border-secondary:rgba(44,44,42,0.3);--color-border-primary:rgba(44,44,42,0.4);
+  --color-border-info:rgba(24,95,165,0.4);--color-border-success:rgba(59,109,17,0.4);--color-border-warning:rgba(133,79,11,0.4);--color-border-danger:rgba(163,45,45,0.4);
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --color-background-primary:#1a1a18;--color-background-secondary:#252523;--color-background-tertiary:#111110;
+    --color-background-info:#042c53;--color-background-success:#173404;--color-background-warning:#412402;--color-background-danger:#501313;
+    --color-text-primary:#e8e6dc;--color-text-secondary:#b4b2a9;--color-text-tertiary:#888780;
+    --color-text-info:#85b7eb;--color-text-success:#c0dd97;--color-text-warning:#fac775;--color-text-danger:#f09595;
+    --color-border-tertiary:rgba(232,230,220,0.15);--color-border-secondary:rgba(232,230,220,0.3);--color-border-primary:rgba(232,230,220,0.4);
+    --color-border-info:rgba(133,183,235,0.4);--color-border-success:rgba(192,221,151,0.4);--color-border-warning:rgba(250,199,117,0.4);--color-border-danger:rgba(240,149,149,0.4);
+  }
+}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary);min-height:100vh;padding:40px 32px}
+#w{max-width:900px;margin:0 auto}
+.title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.sub{font-size:12px;color:var(--color-text-tertiary);margin-bottom:22px}
+#flow{display:flex;align-items:center;gap:0;margin-bottom:16px}
+.sb{flex:1;cursor:pointer;border:none;background:none;padding:0}
+.sbox{border-radius:12px;padding:16px 8px 14px;border:1.5px solid var(--color-border-tertiary);background:var(--color-background-primary);transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:8px}
+.sbox:hover:not(.active){border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.sbox.active{border-color:var(--color-border-info);background:var(--color-background-info)}
+.sbox.warn{border-color:var(--color-border-warning)}
+.sbox.warn.active{border-color:var(--color-border-warning);background:var(--color-background-warning)}
+.sn{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--color-text-tertiary)}
+.sbox.active .sn{color:var(--color-text-info)}
+.sbox.warn.active .sn{color:var(--color-text-warning)}
+.icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sname{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.3;text-align:center}
+.sbox.active .sname{color:var(--color-text-info)}
+.sbox.warn.active .sname{color:var(--color-text-warning)}
+.stag{font-size:9px;font-weight:500;padding:2px 8px;border-radius:10px}
+.tag-w{background:var(--color-background-warning);color:var(--color-text-warning)}
+.tag-n{background:var(--color-background-secondary);color:var(--color-text-tertiary)}
+.conn{flex:0 0 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.cl{width:100%;height:1px;background:var(--color-border-secondary)}
+.cd{width:8px;height:8px;transform:rotate(45deg);border:1.5px solid var(--color-border-secondary);background:var(--color-background-primary);flex-shrink:0}
+.panel{border-radius:12px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);overflow:hidden}
+.ph{padding:13px 16px 11px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center}
+.pht{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.phb{font-size:10px;font-weight:500;padding:3px 9px;border-radius:10px}
+.pbody{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.pcol{padding:16px 20px}
+.pcol+.pcol{border-left:0.5px solid var(--color-border-tertiary)}
+.pct{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-tertiary);margin-bottom:12px}
+.pitem{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;line-height:1.5}
+.pdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.etxt{font-size:12px;color:var(--color-text-secondary);outline:none;cursor:text;border-radius:4px;padding:1px 3px;margin:-1px -3px;transition:background .1s;display:inline-block;min-width:20px}
+.etxt:hover{background:var(--color-background-secondary)}
+.etxt:focus{background:var(--color-background-secondary);box-shadow:0 0 0 1.5px var(--color-border-info)}
+.hint{font-size:10px;color:var(--color-text-tertiary);padding:8px 20px 10px;display:flex;align-items:center;gap:5px;border-top:0.5px solid var(--color-border-tertiary)}
+.hd{width:5px;height:5px;border-radius:50%;background:var(--color-border-secondary);flex-shrink:0}
+.saved{color:var(--color-text-success);margin-left:4px;opacity:0;transition:opacity .3s}
+.saved.show{opacity:1}
+.empty{padding:36px;text-align:center;font-size:12px;color:var(--color-text-tertiary)}
+</style>
+</head>
+<body>
+<div id="w">
+<div class="title">Five stages, one missing system</div>
+<div class="sub">Click any stage to explore. Edit any text and changes persist as you switch between stages.</div>
+
+<div id="flow">
+  <button class="sb" onclick="sel(0)"><div class="sbox" id="b0"><div class="sn">Stage 1</div><div class="icon" style="background:var(--color-background-info)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="2" rx="1" fill="var(--color-text-info)"/><rect x="2" y="7" width="9" height="2" rx="1" fill="var(--color-text-info)" opacity=".6"/><rect x="2" y="11" width="6" height="2" rx="1" fill="var(--color-text-info)" opacity=".3"/></svg></div><div class="sname">Intake</div><span class="stag tag-n">unstructured</span></div></button>
+  <div class="conn"><div class="cl"></div><div class="cd"></div><div class="cl"></div></div>
+  <button class="sb" onclick="sel(1)"><div class="sbox" id="b1"><div class="sn">Stage 2</div><div class="icon" style="background:var(--color-background-secondary)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="var(--color-text-secondary)" stroke-width="1.5"/><path d="M6 8l1.5 1.5L10 6" stroke="var(--color-text-secondary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="sname">Initial screen</div><span class="stag tag-n">informal handoff</span></div></button>
+  <div class="conn"><div class="cl"></div><div class="cd"></div><div class="cl"></div></div>
+  <button class="sb" style="flex:1.3" onclick="sel(2)"><div class="sbox warn" id="b2"><div class="sn">Stage 3</div><div class="icon" style="background:var(--color-background-warning)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L2 13h12L8 2z" stroke="var(--color-text-warning)" stroke-width="1.5" stroke-linejoin="round"/><rect x="7.25" y="6" width="1.5" height="4" rx=".75" fill="var(--color-text-warning)"/><circle cx="8" cy="11.5" r=".75" fill="var(--color-text-warning)"/></svg></div><div class="sname">Due diligence</div><span class="stag tag-w">primary bottleneck</span></div></button>
+  <div class="conn"><div class="cl"></div><div class="cd"></div><div class="cl"></div></div>
+  <button class="sb" onclick="sel(3)"><div class="sbox" id="b3"><div class="sn">Stage 4</div><div class="icon" style="background:var(--color-background-secondary)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="var(--color-text-secondary)" stroke-width="1.5"/><path d="M5 8h6M8 5v6" stroke="var(--color-text-secondary)" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="sname">Committee review</div><span class="stag tag-n">reactive prep</span></div></button>
+  <div class="conn"><div class="cl"></div><div class="cd"></div><div class="cl"></div></div>
+  <button class="sb" onclick="sel(4)"><div class="sbox" id="b4"><div class="sn">Stage 5</div><div class="icon" style="background:var(--color-background-success)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 9l3 3 7-7" stroke="var(--color-text-success)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="sname">Negotiate &amp; close</div><span class="stag tag-n">hard deadline</span></div></button>
+</div>
+
+<div class="panel" id="panel">
+  <div class="empty">Click any stage to see the gap</div>
+</div>
+</div>
+
+<script>
+const S=[
+  {
+    name:"Intake",
+    badge:"Unstructured entry",
+    bs:"background:var(--color-background-secondary);color:var(--color-text-secondary)",
+    a:{label:"What happens today",items:["Sponsor submits deal opportunity via email or intro","Basic project details collected by coverage team","Coverage owner assigned informally"]},
+    b:{label:"The gap",items:["No structured entry point. Deals arrive with inconsistent data","No automatic record creation. Deal exists only in someone's inbox","Downstream stages inherit whatever was or was not captured here"]},
+    ac:["var(--color-text-secondary)","var(--color-text-secondary)","var(--color-text-secondary)"],
+    bc:["var(--color-text-danger)","var(--color-text-danger)","var(--color-text-warning)"]
+  },
+  {
+    name:"Initial screen",
+    badge:"Informal handoff",
+    bs:"background:var(--color-background-secondary);color:var(--color-text-secondary)",
+    a:{label:"What happens today",items:["Investment team reviews opportunity against Crux criteria","Weekly pitch meeting with pass or decline decision","Workstream owners identified if moving forward"]},
+    b:{label:"The gap",items:["Decisions happen live with no documentation. No record of why a deal passed or was declined","No structured handoff. Ownership between coverage and investment team is informal"]},
+    ac:["var(--color-text-secondary)","var(--color-text-secondary)","var(--color-text-secondary)"],
+    bc:["var(--color-text-danger)","var(--color-text-danger)"]
+  },
+  {
+    name:"Due diligence",
+    badge:"Primary bottleneck",
+    bs:"background:var(--color-background-warning);color:var(--color-text-warning)",
+    a:{label:"Five parallel workstreams",items:["Financial modeling","Legal review","Technical diligence","Insurance review","Environmental"]},
+    b:{label:"The gap",items:["No shared tracker. Five workstreams with no shared visibility","Workstreams are independent but must be interconnected. A stall in one can silently block others","External coordination with consultants adds operational burden with no central tracking"]},
+    ac:["var(--color-text-info)","var(--color-text-danger)","var(--color-text-warning)","var(--color-text-secondary)","var(--color-text-success)"],
+    bc:["var(--color-text-danger)","var(--color-text-danger)","var(--color-text-warning)"]
+  },
+  {
+    name:"Committee review",
+    badge:"Reactive preparation",
+    bs:"background:var(--color-background-secondary);color:var(--color-text-secondary)",
+    a:{label:"What happens today",items:["Deal team structures terms and pricing","Committee memo written and circulated","Approval vote with formal offer sent to sponsor"]},
+    b:{label:"The gap",items:["Committee outcomes depend on memo quality. Both suffer when preparation is reactive and last-minute"]},
+    ac:["var(--color-text-secondary)","var(--color-text-secondary)","var(--color-text-secondary)"],
+    bc:["var(--color-text-danger)"]
+  },
+  {
+    name:"Negotiate & close",
+    badge:"Hard external deadline",
+    bs:"background:var(--color-background-secondary);color:var(--color-text-secondary)",
+    a:{label:"What happens today",items:["Legal documents negotiated","Closing conditions satisfied one by one","Co-investors funded and capital wired"]},
+    b:{label:"The gap",items:["External coordination heavy. Legal, co-investors, and lenders all move on their own timelines with no shared visibility","Final stage with a firm deadline. Any operational shortfall here has direct financial consequences"]},
+    ac:["var(--color-text-secondary)","var(--color-text-secondary)","var(--color-text-secondary)"],
+    bc:["var(--color-text-danger)","var(--color-text-danger)"]
+  }
+];
+
+let cur=-1,saveTimer=null;
+
+function savePanel(){
+  if(cur<0)return;
+  const s=S[cur];
+  document.querySelectorAll('.a-item').forEach((el,i)=>{if(s.a.items[i]!==undefined)s.a.items[i]=el.textContent});
+  document.querySelectorAll('.b-item').forEach((el,i)=>{if(s.b.items[i]!==undefined)s.b.items[i]=el.textContent});
+  const pn=document.querySelector('.p-name');if(pn)s.name=pn.textContent;
+  const al=document.querySelector('.a-label');if(al)s.a.label=al.textContent;
+  const bl=document.querySelector('.b-label');if(bl)s.b.label=bl.textContent;
+  const sv=document.getElementById('saved');
+  if(sv){sv.classList.add('show');clearTimeout(saveTimer);saveTimer=setTimeout(()=>sv.classList.remove('show'),1500);}
+}
+
+function render(i){
+  const s=S[i];
+  const ai=s.a.items.map((t,idx)=>`<div class="pitem"><div class="pdot" style="background:${s.ac[idx]||'var(--color-text-secondary)'}"></div><span class="etxt a-item" contenteditable="true" spellcheck="false" onclick="event.stopPropagation()" oninput="savePanel()">${t}</span></div>`).join('');
+  const bi=s.b.items.map((t,idx)=>`<div class="pitem"><div class="pdot" style="background:${s.bc[idx]||'var(--color-text-secondary)'}"></div><span class="etxt b-item" contenteditable="true" spellcheck="false" onclick="event.stopPropagation()" oninput="savePanel()">${t}</span></div>`).join('');
+  document.getElementById('panel').innerHTML=`
+    <div class="ph">
+      <span class="pht p-name etxt" contenteditable="true" spellcheck="false" onclick="event.stopPropagation()" oninput="savePanel()">${s.name}</span>
+      <span class="phb" style="${s.bs}">${s.badge}</span>
+    </div>
+    <div class="pbody">
+      <div class="pcol">
+        <div class="pct a-label etxt" contenteditable="true" spellcheck="false" onclick="event.stopPropagation()" oninput="savePanel()">${s.a.label}</div>
+        ${ai}
+      </div>
+      <div class="pcol">
+        <div class="pct b-label etxt" contenteditable="true" spellcheck="false" onclick="event.stopPropagation()" oninput="savePanel()">${s.b.label}</div>
+        ${bi}
+      </div>
+    </div>
+    <div class="hint"><div class="hd"></div>Click any text to edit<span class="saved" id="saved">Saved</span></div>`;
+}
+
+function sel(i){
+  if(cur===i){
+    savePanel();cur=-1;
+    document.querySelectorAll('[id^=b]').forEach(b=>b.classList.remove('active'));
+    document.getElementById('panel').innerHTML='<div class="empty">Click any stage to see the gap</div>';
+    return;
+  }
+  savePanel();cur=i;
+  document.querySelectorAll('[id^=b]').forEach(b=>b.classList.remove('active'));
+  document.getElementById('b'+i).classList.add('active');
+  render(i);
+}
+</script>
+</body>
+</html>

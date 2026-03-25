@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crux BizOps Case Study — Wenqing Zhang</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1a1f36;
+    --deep: #0f1222;
+    --surface: #1e2340;
+    --surface-2: #252b4a;
+    --border: #2d3561;
+    --text: #e8eaf6;
+    --text-dim: #8b92b3;
+    --accent: #6c8cff;
+    --accent-glow: rgba(108, 140, 255, 0.15);
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --teal: #2dd4bf;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--deep);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(15, 18, 34, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  nav .brand { font-weight: 700; font-size: 0.9rem; letter-spacing: 0.5px; color: var(--accent); }
+  nav .nav-links { display: flex; gap: 0.25rem; }
+  nav .nav-links a {
+    color: var(--text-dim); text-decoration: none; font-size: 0.8rem; font-weight: 500;
+    padding: 0.4rem 0.75rem; border-radius: 6px; transition: all 0.2s;
+  }
+  nav .nav-links a:hover, nav .nav-links a.active { color: var(--text); background: var(--surface); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 6rem 2rem 4rem;
+    background: radial-gradient(ellipse at 50% 30%, rgba(108,140,255,0.08) 0%, transparent 60%);
+    position: relative;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+  .hero .tag {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.5rem;
+    background: var(--accent-glow); padding: 0.4rem 1rem; border-radius: 20px;
+    border: 1px solid rgba(108,140,255,0.2);
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1.1;
+    margin-bottom: 1.5rem; max-width: 800px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero .subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-dim); max-width: 680px;
+    line-height: 1.7; margin-bottom: 2.5rem;
+  }
+  .hero .meta { font-size: 0.85rem; color: var(--text-dim); }
+  .hero .meta span { color: var(--text); font-weight: 500; }
+  .scroll-hint {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    animation: bounce 2s infinite; color: var(--text-dim); font-size: 0.75rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; position: relative; }
+  section::before {
+    content: ''; position: absolute; top: 0; left: 2rem; right: 2rem; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+
+  .section-label {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 700; margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .section-subtitle {
+    font-size: 1rem; color: var(--text-dim); max-width: 700px; margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  /* ── GOAL CARDS ── */
+  .goal-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem; margin-top: 2rem;
+  }
+  .goal-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.75rem; transition: all 0.3s;
+  }
+  .goal-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+  .goal-card .num {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 500;
+    color: var(--accent); margin-bottom: 0.75rem;
+  }
+  .goal-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .goal-card p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.65; }
+
+  /* ── AGENDA ── */
+  .agenda-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+  .agenda-item {
+    display: flex; align-items: flex-start; gap: 1.25rem;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.5rem; transition: border-color 0.3s;
+  }
+  .agenda-item:hover { border-color: var(--accent); }
+  .agenda-item .step {
+    font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700;
+    color: var(--accent); min-width: 2.5rem;
+  }
+  .agenda-item h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .agenda-item p { font-size: 0.85rem; color: var(--text-dim); }
+
+  /* ── BOTTLENECK ── */
+  .bottleneck-visual {
+    display: flex; align-items: center; gap: 0; margin: 2.5rem 0;
+    overflow-x: auto; padding-bottom: 1rem;
+  }
+  .bn-stage {
+    text-align: center; padding: 1rem 1.25rem; border-radius: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    min-width: 140px; transition: all 0.3s; flex-shrink: 0;
+  }
+  .bn-stage.highlight {
+    background: rgba(251, 191, 36, 0.1); border-color: var(--amber);
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
+  }
+  .bn-stage h4 { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .bn-stage .badge {
+    font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 10px;
+    background: var(--surface-2); color: var(--text-dim); display: inline-block;
+  }
+  .bn-stage.highlight .badge { background: rgba(251,191,36,0.2); color: var(--amber); }
+  .bn-arrow { color: var(--text-dim); font-size: 1.2rem; padding: 0 0.5rem; flex-shrink: 0; }
+
+  .dd-tracks {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem; margin: 2rem 0;
+  }
+  .dd-track {
+    text-align: center; padding: 1rem; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; font-size: 0.85rem; font-weight: 500;
+  }
+  .dd-track .icon { font-size: 1.25rem; margin-bottom: 0.5rem; }
+
+  /* ── DEMO EMBED ── */
+  .demo-section {
+    padding: 4rem 2rem; max-width: 1300px; margin: 0 auto; position: relative;
+  }
+  .demo-section::before {
+    content: ''; position: absolute; top: 0; left: 2rem; right: 2rem; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .demo-header {
+    text-align: center; margin-bottom: 2rem;
+  }
+  .demo-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 0.75rem;
+    background: rgba(74,222,128,0.1); padding: 0.4rem 1rem; border-radius: 20px;
+    border: 1px solid rgba(74,222,128,0.2);
+  }
+  .demo-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .demo-header h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .demo-header p { color: var(--text-dim); font-size: 0.95rem; }
+  .demo-frame-wrap {
+    border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    background: var(--surface);
+  }
+  .demo-frame-bar {
+    display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem;
+    background: var(--surface-2); border-bottom: 1px solid var(--border);
+  }
+  .demo-frame-bar .dots { display: flex; gap: 6px; }
+  .demo-frame-bar .dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .demo-frame-bar .dots span:nth-child(1) { background: #ff5f57; }
+  .demo-frame-bar .dots span:nth-child(2) { background: #febc2e; }
+  .demo-frame-bar .dots span:nth-child(3) { background: #28c840; }
+  .demo-frame-bar .url {
+    flex: 1; text-align: center; font-size: 0.75rem; color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .demo-frame-bar .open-link {
+    font-size: 0.7rem; color: var(--accent); text-decoration: none; font-weight: 500;
+    padding: 0.25rem 0.6rem; border: 1px solid var(--accent); border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .demo-frame-bar .open-link:hover { background: var(--accent); color: #fff; }
+  .demo-frame-wrap iframe {
+    width: 100%; height: 700px; border: none; background: #fff;
+  }
+
+  /* ── SYSTEMS GRID ── */
+  .systems-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem; margin-top: 2rem;
+  }
+  .system-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.75rem; position: relative; overflow: hidden;
+  }
+  .system-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .system-card:nth-child(1)::before { background: var(--accent); }
+  .system-card:nth-child(2)::before { background: var(--teal); }
+  .system-card:nth-child(3)::before { background: var(--amber); }
+  .system-card:nth-child(4)::before { background: var(--green); }
+  .system-card .sys-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .system-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .system-card .sys-role { font-size: 0.75rem; color: var(--accent); font-weight: 500; margin-bottom: 0.75rem; }
+  .system-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+
+  /* ── SYNC FLOW ── */
+  .sync-flow {
+    display: flex; align-items: center; justify-content: center; gap: 0;
+    margin: 2.5rem 0; flex-wrap: wrap;
+  }
+  .sync-node {
+    text-align: center; padding: 1.5rem 2rem; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 12px; min-width: 200px;
+  }
+  .sync-node h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .sync-node .role { font-size: 0.75rem; color: var(--text-dim); }
+  .sync-arrow {
+    display: flex; flex-direction: column; align-items: center; padding: 0 0.75rem;
+    color: var(--accent); font-size: 0.7rem; font-weight: 500;
+  }
+  .sync-arrow .arrow { font-size: 1.25rem; }
+
+  /* ── AUTOMATE vs HUMAN ── */
+  .auto-human {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;
+  }
+  @media (max-width: 700px) { .auto-human { grid-template-columns: 1fr; } }
+  .auto-col {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.75rem;
+  }
+  .auto-col h3 {
+    font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .auto-col h3 .indicator { width: 8px; height: 8px; border-radius: 50%; }
+  .auto-col:first-child h3 .indicator { background: var(--teal); }
+  .auto-col:last-child h3 .indicator { background: var(--amber); }
+  .auto-col ul { list-style: none; }
+  .auto-col li {
+    font-size: 0.85rem; color: var(--text-dim); padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(45,53,97,0.5);
+    padding-left: 1.25rem; position: relative;
+  }
+  .auto-col li:last-child { border: none; }
+  .auto-col li::before {
+    content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 5px; height: 5px; border-radius: 50%;
+  }
+  .auto-col:first-child li::before { background: var(--teal); }
+  .auto-col:last-child li::before { background: var(--amber); }
+
+  /* ── COLLAB CARDS ── */
+  .collab-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem; margin-top: 2rem;
+  }
+  .collab-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.5rem; transition: border-color 0.3s;
+  }
+  .collab-card:hover { border-color: var(--accent); }
+  .collab-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .collab-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+
+  /* ── ADOPTION ── */
+  .adoption-steps {
+    display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;
+    position: relative; padding-left: 2rem;
+  }
+  .adoption-steps::before {
+    content: ''; position: absolute; left: 0.55rem; top: 0.5rem; bottom: 0.5rem;
+    width: 2px; background: var(--border);
+  }
+  .adoption-step { position: relative; }
+  .adoption-step .dot {
+    position: absolute; left: -2rem; top: 0.35rem; width: 14px; height: 14px;
+    border-radius: 50%; background: var(--surface-2); border: 2px solid var(--accent);
+  }
+  .adoption-step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; }
+  .adoption-step p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.65; max-width: 650px; }
+
+  /* ── METRICS + ROADMAP ── */
+  .dashboards-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 2rem 0;
+  }
+  @media (max-width: 700px) { .dashboards-row { grid-template-columns: 1fr; } }
+  .dash-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .dash-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .dash-card .dash-q { font-size: 0.8rem; color: var(--accent); font-style: italic; margin-bottom: 0.75rem; }
+  .dash-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+
+  .indicators { margin: 2rem 0; }
+  .indicators h3 {
+    font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+  .indicator-list {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.6rem;
+  }
+  .indicator-item {
+    font-size: 0.85rem; color: var(--text-dim); padding: 0.6rem 0.75rem;
+    background: var(--surface); border-radius: 8px; border-left: 3px solid var(--accent);
+  }
+
+  .roadmap { margin-top: 2.5rem; }
+  .roadmap h3 {
+    font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem;
+  }
+  .roadmap-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;
+  }
+  .rm-phase {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.5rem; position: relative;
+  }
+  .rm-phase .weeks {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 500;
+    color: var(--accent); margin-bottom: 0.5rem; letter-spacing: 0.5px;
+  }
+  .rm-phase h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .rm-phase p { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border);
+    color: var(--text-dim); font-size: 0.8rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--accent-glow); border: 1px solid rgba(108,140,255,0.2);
+    border-radius: 10px; padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+    font-size: 0.9rem; color: var(--text); line-height: 1.6;
+  }
+
+  /* ── TOC (Table of Contents sidebar) ── */
+  .toc {
+    position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%);
+    z-index: 90; display: flex; flex-direction: column; gap: 0.35rem;
+  }
+  .toc a {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--border);
+    display: block; transition: all 0.3s; position: relative;
+  }
+  .toc a:hover, .toc a.active { background: var(--accent); transform: scale(1.4); }
+  .toc a:hover::before {
+    content: attr(data-label); position: absolute; right: 1.25rem; top: 50%;
+    transform: translateY(-50%); font-size: 0.7rem; color: var(--text);
+    background: var(--surface); padding: 0.25rem 0.6rem; border-radius: 4px;
+    white-space: nowrap; border: 1px solid var(--border);
+  }
+  @media (max-width: 900px) { .toc { display: none; } }
+
+  /* ── PRIORITIZATION ── */
+  .priority-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem; margin: 2rem 0;
+  }
+  .priority-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;
+  }
+  .priority-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--amber); }
+  .priority-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+
+  .discovery-list {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.5rem; margin-top: 1.5rem;
+  }
+  .discovery-list h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; }
+  .discovery-list ol { padding-left: 1.25rem; }
+  .discovery-list li { font-size: 0.85rem; color: var(--text-dim); padding: 0.35rem 0; line-height: 1.5; }
+
+  .internal-rhythm {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.5rem; margin-top: 1.5rem;
+  }
+  .internal-rhythm h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .internal-rhythm p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+
+  /* fade in */
+  .fade-in {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="brand">CRUX BIZOPS — CASE STUDY</div>
+  <div class="nav-links">
+    <a href="#goal">Goal</a>
+    <a href="#problem">Problem</a>
+    <a href="#demo-stagegate">Stage Gate</a>
+    <a href="#systems">Systems</a>
+    <a href="#demo-pipeline">Pipeline</a>
+    <a href="#adoption">Adoption</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+</nav>
+
+<!-- TOC dots -->
+<div class="toc">
+  <a href="#hero" data-label="Home"></a>
+  <a href="#goal" data-label="Goal"></a>
+  <a href="#agenda" data-label="Agenda"></a>
+  <a href="#problem" data-label="Problem"></a>
+  <a href="#bottleneck" data-label="Bottleneck"></a>
+  <a href="#prioritization" data-label="Prioritization"></a>
+  <a href="#demo-stagegate" data-label="Stage Gate Demo"></a>
+  <a href="#systems" data-label="Systems Design"></a>
+  <a href="#sync" data-label="Bi-Directional Sync"></a>
+  <a href="#demo-pipeline" data-label="Pipeline Demo"></a>
+  <a href="#automation" data-label="Automation"></a>
+  <a href="#collaboration" data-label="Collaboration"></a>
+  <a href="#adoption" data-label="Adoption"></a>
+  <a href="#roadmap" data-label="Metrics & Roadmap"></a>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="tag">Crux Investments · BizOps Lead Case Study</div>
+  <h1>Scaling the Investment Deal Pipeline</h1>
+  <p class="subtitle">Designing the systems and infrastructure to take Crux's Investments team from intake through close at 3–4× volume</p>
+  <p class="meta"><span>Wenqing Zhang</span> · March 2026</p>
+  <div class="scroll-hint">
+    <span>Scroll to explore</span>
+    <span>↓</span>
+  </div>
+</div>
+
+<!-- GOAL -->
+<section id="goal">
+  <div class="fade-in">
+    <div class="section-label">Goal of Today's Session</div>
+    <div class="section-title">A central system designed for people</div>
+    <div class="section-subtitle">Tax equity and preferred equity deals run on hard timelines, parallel workstreams, and external parties that don't share the same system. At 3–4× volume, coordination gaps carry real financial consequences.</div>
+    <div class="goal-grid">
+      <div class="goal-card">
+        <div class="num">01</div>
+        <h3>One source of truth</h3>
+        <p>Every active deal — stage, owner, size, ITC/PTC type, DD status, placed-in-service target — lives in one place. Not in someone's inbox. Not in a spreadsheet that's already out of date.</p>
+      </div>
+      <div class="goal-card">
+        <div class="num">02</div>
+        <h3>Enablement, not replacement</h3>
+        <p>The system handles what's routine. Evaluating deal viability, synthesizing risk across DD workstreams, managing sponsor relationships — those stay with the team.</p>
+      </div>
+      <div class="goal-card">
+        <div class="num">03</div>
+        <h3>Visibility that drives action</h3>
+        <p>Real-time pipeline health. Stall alerts before they become crises. A Monday review that generates itself — so the meeting is for decisions, not figuring out where things stand.</p>
+      </div>
+    </div>
+    <div class="callout">The solution is not more overhead. It's infrastructure that makes the right thing the default.</div>
+  </div>
+</section>
+
+<!-- AGENDA -->
+<section id="agenda">
+  <div class="fade-in">
+    <div class="section-label">Agenda</div>
+    <div class="section-title">What we'll walk through today</div>
+    <div class="agenda-list">
+      <div class="agenda-item">
+        <div class="step">01</div>
+        <div>
+          <h3>Problem Identification</h3>
+          <p>Identifying bottlenecks, operation prioritization framework, and initial discovery questions</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="step">02</div>
+        <div>
+          <h3>Systems Design</h3>
+          <p>Four-tool architecture: HubSpot + n8n + Notion + BI layer. Automation vs. human judgment.</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="step">03</div>
+        <div>
+          <h3>Cross-Functional Collaboration</h3>
+          <p>Defined channels for external parties, internal collaboration, and adoption strategy</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="step">04</div>
+        <div>
+          <h3>Metrics, Visibility & Roadmap</h3>
+          <p>Leading indicators, reporting and monitoring, 90-day implementation plan</p>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-dim); font-style: italic;">Format: Internal project kickoff — please interrupt with questions as we go.</p>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="fade-in">
+    <div class="section-label">01 — Problem Identification</div>
+    <div class="section-title">Diagnosing the Pipeline: Where 3× Volume Will Break</div>
+    <div class="section-subtitle">Mapping each pipeline stage to its current operational gap and the risk it introduces at scale.</div>
+    <div class="bottleneck-visual">
+      <div class="bn-stage">
+        <h4>Intake</h4>
+        <span class="badge">Unstructured entry</span>
+      </div>
+      <div class="bn-arrow">→</div>
+      <div class="bn-stage">
+        <h4>Initial Screen</h4>
+        <span class="badge">Informal criteria</span>
+      </div>
+      <div class="bn-arrow">→</div>
+      <div class="bn-stage highlight">
+        <h4>Due Diligence</h4>
+        <span class="badge">Primary bottleneck</span>
+      </div>
+      <div class="bn-arrow">→</div>
+      <div class="bn-stage">
+        <h4>Committee Review</h4>
+        <span class="badge">Manual prep</span>
+      </div>
+      <div class="bn-arrow">→</div>
+      <div class="bn-stage">
+        <h4>Negotiate & Close</h4>
+        <span class="badge">Timeline risk</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO: STAGE GATE -->
+<div class="demo-section" id="demo-stagegate">
+  <div class="demo-header fade-in">
+    <div class="demo-tag"><span class="dot"></span> Interactive Prototype</div>
+    <h2>Stage Gate Visualization</h2>
+    <p>Click each stage to explore the current operational gaps and risks at every step of the pipeline.</p>
+  </div>
+  <div class="demo-frame-wrap fade-in">
+    <div class="demo-frame-bar">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="url">capable-malabi-6e3b0c.netlify.app</div>
+      <a href="https://capable-malabi-6e3b0c.netlify.app/" target="_blank" rel="noopener" class="open-link">Open ↗</a>
+    </div>
+    <iframe src="https://capable-malabi-6e3b0c.netlify.app/" loading="lazy" title="Stage Gate Prototype"></iframe>
+  </div>
+</div>
+
+<!-- BOTTLENECK -->
+<section id="bottleneck">
+  <div class="fade-in">
+    <div class="section-label">01 — The Compounding Bottleneck</div>
+    <div class="section-title">Due Diligence: The Longest Stage with the Most Moving Parts</div>
+    <div class="section-subtitle">A single deal involves five parallel tracks handled by a mix of internal team and third-party consultants with no shared coordination layer.</div>
+    <div class="dd-tracks">
+      <div class="dd-track"><div class="icon">📊</div>Financial Review</div>
+      <div class="dd-track"><div class="icon">⚖️</div>Legal Review</div>
+      <div class="dd-track"><div class="icon">🔧</div>Technical Diligence</div>
+      <div class="dd-track"><div class="icon">🛡️</div>Insurance Review</div>
+      <div class="dd-track"><div class="icon">🌿</div>Environmental</div>
+    </div>
+    <div class="callout">A stall in any single track can push the hard funding deadline for the entire deal — carrying direct financial and reputational cost.</div>
+  </div>
+</section>
+
+<!-- PRIORITIZATION -->
+<section id="prioritization">
+  <div class="fade-in">
+    <div class="section-label">01 — Prioritization + Discovery</div>
+    <div class="section-title">How to prioritize — and what to ask first</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <h3>Where are the delays?</h3>
+        <p>Start with the stage that creates the most delays, takes the longest, and has the biggest downstream impact. That's due diligence.</p>
+      </div>
+      <div class="priority-card">
+        <h3>Where does delay carry cost?</h3>
+        <p>Operational shortfalls in close aren't scheduling friction — they carry direct commercial impact when they push past hard deadlines.</p>
+      </div>
+      <div class="priority-card">
+        <h3>Which fix enables the most?</h3>
+        <p>Structured intake improves every downstream stage. HubSpot as SSOT makes dashboards possible. Get the foundation right first.</p>
+      </div>
+    </div>
+    <div style="margin: 1.5rem 0; padding: 1rem 1.5rem; background: var(--surface); border-radius: 10px; border: 1px solid var(--border);">
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent);">Intake + HubSpot → DD workspace → IC prep → Reporting</p>
+    </div>
+    <div class="discovery-list">
+      <h3>First two weeks: what I would ask</h3>
+      <ol>
+        <li>Where do deals stall most? Has an operational issue ever caused a real delay or loss?</li>
+        <li>Who owns each deal at each stage — and is that universally understood?</li>
+        <li>Which deal stage does "the most effort" go?</li>
+        <li>What does leadership most wish it could see that it currently cannot?</li>
+        <li>Who on the team would want to help design the new system?</li>
+      </ol>
+      <p style="margin-top: 0.75rem; font-size: 0.82rem; color: var(--text-dim); font-style: italic;">I'd also shadow 2–3 deal reviews and map where deals actually live today.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SYSTEMS DESIGN -->
+<section id="systems">
+  <div class="fade-in">
+    <div class="section-label">02 — Systems Design</div>
+    <div class="section-title">Four tools, each with a distinct role</div>
+    <div class="section-subtitle">Minimize new surfaces: Making HubSpot the one place where every deal record lives.</div>
+    <div class="systems-grid">
+      <div class="system-card">
+        <div class="sys-icon">🔵</div>
+        <h3>HubSpot</h3>
+        <div class="sys-role">Single source of truth</div>
+        <p>The deal pipeline inventory. Every active deal: stage, owner, size, credits, contacts, DD status, committee date. Stage advancement requires complete fields.</p>
+      </div>
+      <div class="system-card">
+        <div class="sys-icon">⚡</div>
+        <h3>n8n</h3>
+        <div class="sys-role">Automation layer</div>
+        <p>Fires the right action at the right moment — creates Notion workspaces on DD entry, holds committee slots, sends stall alerts, distributes the Monday snapshot.</p>
+      </div>
+      <div class="system-card">
+        <div class="sys-icon">📋</div>
+        <h3>Notion</h3>
+        <div class="sys-role">Execution workspace</div>
+        <p>Auto-generated per deal at DD entry with five workstream tabs — owner, checklist, deadline, status. Consultants access only their tab. Status syncs back to HubSpot.</p>
+      </div>
+      <div class="system-card">
+        <div class="sys-icon">📈</div>
+        <h3>BI / Reporting</h3>
+        <div class="sys-role">Visibility layer</div>
+        <p>Aggregate dashboard for leadership, operational view for the deal team. Monday snapshot auto-distributed — no significant manual prep required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYNC -->
+<section id="sync">
+  <div class="fade-in">
+    <div class="section-label">02 — Bi-Directional Sync</div>
+    <div class="section-title">Execution Meets Visibility</div>
+    <div class="section-subtitle">Teams do their actual work in Notion. n8n automatically syncs status updates between Notion and HubSpot — continuously and without human intervention.</div>
+    <div class="sync-flow">
+      <div class="sync-node">
+        <h4>📋 Notion</h4>
+        <div class="role">Execution workspace</div>
+      </div>
+      <div class="sync-arrow">
+        <span class="arrow">→</span>
+        <span>n8n sync</span>
+      </div>
+      <div class="sync-node">
+        <h4>⚡ n8n</h4>
+        <div class="role">Automation layer</div>
+      </div>
+      <div class="sync-arrow">
+        <span class="arrow">→</span>
+        <span>instant</span>
+      </div>
+      <div class="sync-node">
+        <h4>🔵 HubSpot</h4>
+        <div class="role">Single source of truth</div>
+      </div>
+    </div>
+    <div class="callout">The deal pipeline inventory remains 100% accurate in real-time, without requiring anyone to do double data entry or send status update emails.</div>
+  </div>
+</section>
+
+<!-- DEMO: PIPELINE -->
+<div class="demo-section" id="demo-pipeline">
+  <div class="demo-header fade-in">
+    <div class="demo-tag"><span class="dot"></span> Interactive Prototype</div>
+    <h2>Full Pipeline Dashboard</h2>
+    <p>Explore the Kanban pipeline view, analytics, and automation log — the system that makes 3× volume manageable.</p>
+  </div>
+  <div class="demo-frame-wrap fade-in">
+    <div class="demo-frame-bar">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="url">deluxe-douhua-546464.netlify.app</div>
+      <a href="https://deluxe-douhua-546464.netlify.app/" target="_blank" rel="noopener" class="open-link">Open ↗</a>
+    </div>
+    <iframe src="https://deluxe-douhua-546464.netlify.app/" loading="lazy" title="Pipeline Dashboard Prototype"></iframe>
+  </div>
+</div>
+
+<!-- AUTOMATION -->
+<section id="automation">
+  <div class="fade-in">
+    <div class="section-label">02 — Automation Strategy</div>
+    <div class="section-title">Automate the routine to elevate human judgment</div>
+    <div class="section-subtitle">Automate anything routine and deterministic. Keep humans in the loop for anything that requires judgment or carries real consequences.</div>
+    <div class="auto-human">
+      <div class="auto-col">
+        <h3><span class="indicator"></span>Automate (n8n)</h3>
+        <ul>
+          <li>Deal record creation on intake form submission</li>
+          <li>Notion workspace generation on DD entry</li>
+          <li>Stage transition notifications to incoming owner</li>
+          <li>Committee calendar hold + memo template setup</li>
+          <li>Stale-deal alerts (no activity &gt;7 days)</li>
+          <li>Monday pipeline snapshot auto-distribution</li>
+        </ul>
+      </div>
+      <div class="auto-col">
+        <h3><span class="indicator"></span>Human Judgment</h3>
+        <ul>
+          <li>Evaluating deal viability</li>
+          <li>Synthesizing risk across five DD workstreams</li>
+          <li>Term structuring and pricing decisions</li>
+          <li>Investment Committee approval vote</li>
+          <li>Co-investor and partnership relationship management</li>
+          <li>Evaluating investment criteria</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLABORATION -->
+<section id="collaboration">
+  <div class="fade-in">
+    <div class="section-label">03 — Cross-Functional Collaboration</div>
+    <div class="section-title">The Right Channel for the Right Person</div>
+    <div class="collab-grid">
+      <div class="collab-card">
+        <h3>Co-investors</h3>
+        <p>Keep them informed, not overwhelmed. Shared data room linked from HubSpot with milestone updates.</p>
+      </div>
+      <div class="collab-card">
+        <h3>Legal counsel</h3>
+        <p>Legal is the critical path. Treat their timeline as the constraint and build coordination around it.</p>
+      </div>
+      <div class="collab-card">
+        <h3>External consultants</h3>
+        <p>Give them exactly what they need — a Notion workstream tab. Their updates flow back to HubSpot without them ever logging into it.</p>
+      </div>
+      <div class="collab-card">
+        <h3>Sponsors</h3>
+        <p>This stays human and tailored. The system makes sure the team never walks into a sponsor call without a current picture of where the deal stands.</p>
+      </div>
+    </div>
+    <div class="internal-rhythm">
+      <h3>Internal rhythm</h3>
+      <p>Every stage transition fires a notification to the incoming owner — so no one has to chase. Monday review is 30 minutes, agenda auto-generated. That meeting is for real collaboration and decisions, not figuring out where things stand.</p>
+    </div>
+    <div class="callout">The goal is to enhance how the team coordinates — using the right tool helps teams collaborate better.</div>
+  </div>
+</section>
+
+<!-- ADOPTION -->
+<section id="adoption">
+  <div class="fade-in">
+    <div class="section-label">03 — Adoption</div>
+    <div class="section-title">Earn adoption. Don't mandate it.</div>
+    <div class="section-subtitle">The best process is one people actually use. That means co-designing it with them, not rolling it out to them.</div>
+    <div class="adoption-steps">
+      <div class="adoption-step">
+        <div class="dot"></div>
+        <h3>Shadow before you build</h3>
+        <p>Two weeks of watching before I touch anything. I want to understand how deals move — and how people would love things to operate. The gap between those two things is where the real problems are.</p>
+      </div>
+      <div class="adoption-step">
+        <div class="dot"></div>
+        <h3>Find the person who feels the pain most</h3>
+        <p>Through multiple rounds of conversations, find the one who would genuinely benefit and build with them. Their credibility becomes the system's credibility. People adopt things that feel like theirs.</p>
+      </div>
+      <div class="adoption-step">
+        <div class="dot"></div>
+        <h3>Build and ship something small first</h3>
+        <p>A shared pipeline view people can see in week 3 does more for adoption than a perfect system in month 3. Start with the most complained-about problem. The system works when it makes people's jobs easier — not when it adds steps to their day.</p>
+      </div>
+      <div class="adoption-step">
+        <div class="dot"></div>
+        <h3>Keep the feedback loop visible</h3>
+        <p>If something isn't working, I want to know early — not after people have quietly stopped using it. I'd make it easy to flag friction and make it visible when something changes because of that feedback. People stay engaged with a system that listens back.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS + ROADMAP -->
+<section id="roadmap">
+  <div class="fade-in">
+    <div class="section-label">04 — Metrics, Visibility & Roadmap</div>
+    <div class="section-title">What I'd actually track — and why it matters</div>
+    <div class="dashboards-row">
+      <div class="dash-card">
+        <h3>Leadership dashboard</h3>
+        <div class="dash-q">"Where do we stand and what's at risk?"</div>
+        <p>Pipeline funnel · projected closes · total value · at-risk flags</p>
+      </div>
+      <div class="dash-card">
+        <h3>Deal team dashboard</h3>
+        <div class="dash-q">"What do I need to do today?"</div>
+        <p>My active deals · upcoming deadlines · workstream status</p>
+      </div>
+    </div>
+    <div class="indicators">
+      <h3>Leading Indicators</h3>
+      <div class="indicator-list">
+        <div class="indicator-item">Time per stage by deal and project type</div>
+        <div class="indicator-item">Stage conversion rates — screening more selectively?</div>
+        <div class="indicator-item">Active pipeline value vs. deployment target</div>
+        <div class="indicator-item">Due diligence cycle time by workstream</div>
+        <div class="indicator-item">ITC timing at risk — deals within 60 days of placed-in-service deadline</div>
+        <div class="indicator-item">Deal value by technology type — solar vs. storage vs. manufacturing</div>
+      </div>
+    </div>
+    <div class="roadmap">
+      <h3>90-Day Roadmap</h3>
+      <p style="font-size: 0.88rem; color: var(--text-dim); margin-bottom: 1.5rem;">Each layer builds on the one before.</p>
+      <div class="roadmap-grid">
+        <div class="rm-phase">
+          <div class="weeks">Wks 1–3</div>
+          <h4>Discovery</h4>
+          <p>Shadow deal team. Audit HubSpot. Map where deals live. Find early adopter. Do not build yet.</p>
+        </div>
+        <div class="rm-phase">
+          <div class="weeks">Wks 4–6</div>
+          <h4>Foundation</h4>
+          <p>Configure HubSpot pipeline. Launch intake form. Migrate active deals. First stall alert. First Monday review.</p>
+        </div>
+        <div class="rm-phase">
+          <div class="weeks">Wks 7–10</div>
+          <h4>Coordination</h4>
+          <p>Notion DD workspace. Auto-generate on entry and understand stage alerts.</p>
+        </div>
+        <div class="rm-phase">
+          <div class="weeks">Wks 11–12</div>
+          <h4>Operationalize</h4>
+          <p>Leadership dashboard. Deal team view. Monday snapshot. Deadline alerts. System documentation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Wenqing Zhang</strong> · March 2026 · Crux BizOps Lead Case Study</p>
+  <p style="margin-top: 0.5rem;">
+    <a href="https://deluxe-douhua-546464.netlify.app/" target="_blank">Pipeline Dashboard</a> ·
+    <a href="https://capable-malabi-6e3b0c.netlify.app/" target="_blank">Stage Gate Visualization</a>
+  </p>
+</footer>
+
+<script>
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // TOC active state
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const tocObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      const link = document.querySelector(`.toc a[href="#${e.target.id}"]`);
+      if (link) { if (e.isIntersecting) link.classList.add('active'); else link.classList.remove('active'); }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => tocObserver.observe(s));
+
+  // Nav active state
+  const navLinks = document.querySelectorAll('nav .nav-links a');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const match = document.querySelector(`nav .nav-links a[href="#${e.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('section, .demo-section, .hero').forEach(s => { if (s.id) navObserver.observe(s); });
+</script>
+
+</body>
+</html>

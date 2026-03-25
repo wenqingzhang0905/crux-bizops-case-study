@@ -567,11 +567,11 @@
     <div class="section-title">Due Diligence: The Longest Stage with the Most Moving Parts</div>
     <div class="section-subtitle">A single deal involves five parallel tracks handled by a mix of internal team and third-party consultants with no shared coordination layer.</div>
     <div class="dd-tracks">
-      <div class="dd-track"><div class="icon">📊</div>Financial Review</div>
-      <div class="dd-track"><div class="icon">⚖️</div>Legal Review</div>
-      <div class="dd-track"><div class="icon">🔧</div>Technical Diligence</div>
-      <div class="dd-track"><div class="icon">🛡️</div>Insurance Review</div>
-      <div class="dd-track"><div class="icon">🌿</div>Environmental</div>
+      <div class="dd-track">Financial Review</div>
+      <div class="dd-track">Legal Review</div>
+      <div class="dd-track">Technical Diligence</div>
+      <div class="dd-track">Insurance Review</div>
+      <div class="dd-track">Environmental</div>
     </div>
     <div class="callout">A stall in any single track can push the hard funding deadline for the entire deal carrying direct financial and reputational cost.</div>
   </div>
@@ -621,25 +621,21 @@
     <div class="section-subtitle">Minimize new surfaces: Making HubSpot the one place where every deal record lives.</div>
     <div class="systems-grid">
       <div class="system-card">
-        <div class="sys-icon">🔵</div>
         <h3>HubSpot</h3>
         <div class="sys-role">Single source of truth</div>
         <p>The deal pipeline inventory. Every active deal: stage, owner, size, credits, contacts, DD status, committee date. Stage advancement requires complete fields.</p>
       </div>
       <div class="system-card">
-        <div class="sys-icon">⚡</div>
         <h3>n8n</h3>
         <div class="sys-role">Automation layer</div>
         <p>What n8n actually does: It fires the right action at the right moment. creates Notion workspaces on DD entry, holds committee slots, sends stall alerts, distributes the Monday snapshot.</p>
       </div>
       <div class="system-card">
-        <div class="sys-icon">📋</div>
         <h3>Notion</h3>
         <div class="sys-role">Execution workspace</div>
         <p>What is does for us: Auto-generated per deal at DD entry with five workstream tabs with owner, checklist, deadline, status. Consultants access only their tab with status syncs back to HubSpot.</p>
       </div>
       <div class="system-card">
-        <div class="sys-icon">📈</div>
         <h3>BI / Reporting</h3>
         <div class="sys-role">Visibility layer</div>
         <p>The BI layer will be connected to HubSpot data, aggregate dashboard for leadership with operational view for the deal team. Monday snapshot auto-distributed,  no significant manual prep required.</p>
@@ -656,7 +652,7 @@
     <div class="section-subtitle">The Mechanism: Teams do their actual work through Notion workspace. N8n automatically syncs status updates between Notion and HubSpot.</div>
     <div class="sync-flow">
       <div class="sync-node">
-        <h4>📋 Notion</h4>
+        <h4>Notion</h4>
         <div class="role">Execution workspace</div>
       </div>
       <div class="sync-arrow">
@@ -664,7 +660,7 @@
         <span>n8n sync</span>
       </div>
       <div class="sync-node">
-        <h4>⚡ n8n</h4>
+        <h4>n8n</h4>
         <div class="role">Automation layer</div>
       </div>
       <div class="sync-arrow">
@@ -672,7 +668,7 @@
         <span>instant</span>
       </div>
       <div class="sync-node">
-        <h4>🔵 HubSpot</h4>
+        <h4>HubSpot</h4>
         <div class="role">Single source of truth</div>
       </div>
     </div>
@@ -816,8 +812,8 @@
         <div class="indicator-item">Stage conversion rates, screening more selectively?</div>
         <div class="indicator-item">Active pipeline value vs. deployment target</div>
         <div class="indicator-item">Due diligence cycle time by workstream</div>
-        <div class="indicator-item">ITC timing at risk, deals in close within 60 days of placed-in-service deadline</div>
-        <div class="indicator-item">Deal value by technology type, solar vs. storage vs. manufacturing</div>
+        <div class="indicator-item">Team capacity, how many active deals per person across stages</div>
+        <div class="indicator-item">Further divide time, capacity by deal type and deal value</div>
       </div>
     </div>
     <div class="roadmap" id="iteration">
@@ -827,12 +823,12 @@
         <div class="dash-card" style="border-left: 3px solid var(--teal);">
           <h3>At 3 months</h3>
           <div class="dash-q">Adoption and reliability, not perfection.</div>
-          <p>Every deal lives in HubSpot with accurate stage and owner. DD workspaces auto-generate and consultants use them. Stall alerts have prevented at least one real delay. Monday review prep takes under 5 minutes. Leadership can pull up pipeline health without asking anyone.</p>
+          <p>The system is the default way deals move. People use it because it's easier than the alternative, not because they were told to. Leadership has visibility without asking. Alerts are catching real issues.</p>
         </div>
         <div class="dash-card" style="border-left: 3px solid var(--accent);">
           <h3>At 12 months</h3>
-          <div class="dash-q">Compounding insight and predictive capability.</div>
-          <p>Historical data benchmarks close time by deal type and conversion by sponsor tier. The system flags at-risk deals based on patterns, not just missed deadlines. Capacity planning is data-driven. New team members onboard faster. Every iteration was driven by a specific metric, not a guess.</p>
+          <div class="dash-q">Compounding insight, not just better tracking.</div>
+          <p>Enough data to spot patterns and predict outcomes. The system tells you where things are going, not just where they stand. Each iteration was driven by a real signal. The team can't imagine going back.</p>
         </div>
       </div>
     </div>

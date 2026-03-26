@@ -3,427 +3,496 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crux BizOps Case Study — Wenqing Zhang</title>
+<title>Crux BizOps Case Study - Wenqing Zhang</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --navy: #1a1a2e;
-    --deep: #fafafa;
-    --surface: #ffffff;
-    --surface-2: #f5f5f5;
-    --border: #e5e5e5;
-    --text: #1a1a2e;
-    --text-dim: #6b7280;
-    --accent: #2563eb;
-    --accent-glow: rgba(37, 99, 235, 0.06);
-    --green: #059669;
-    --amber: #d97706;
-    --red: #dc2626;
-    --teal: #0d9488;
+    --navy: #1E2B3A;
+    --navy-deep: #15202E;
+    --terra: #A0522D;
+    --terra-light: rgba(160, 82, 45, 0.08);
+    --sage: #5B7B6A;
+    --sage-light: rgba(91, 123, 106, 0.08);
+    --cream: #F5F0E8;
+    --cream-dark: #EDE6D8;
+    --paper: #F8F4ED;
+    --surface: #FDFBF7;
+    --border: #D5CDBE;
+    --border-light: #E5DDD0;
+    --text: #1E2B3A;
+    --text-dim: #6B7264;
+    --grid: rgba(160, 140, 110, 0.12);
   }
 
   html { scroll-behavior: smooth; }
 
   body {
     font-family: 'Inter', -apple-system, sans-serif;
-    background: var(--deep);
+    background: var(--paper);
     color: var(--text);
     line-height: 1.6;
     overflow-x: hidden;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 
-  /* ── NAV ── */
+  h1, h2, h3, .section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(248, 244, 237, 0.92);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    height: 56px;
+    padding: 0 2rem; height: 52px;
     display: flex; align-items: center; justify-content: space-between;
   }
-  nav .brand { font-weight: 700; font-size: 0.9rem; letter-spacing: 0.5px; color: var(--accent); }
-  nav .nav-links { display: flex; gap: 0.25rem; }
+  nav .brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500; font-size: 0.75rem; letter-spacing: 1.5px;
+    color: var(--navy); text-transform: uppercase;
+  }
+  nav .nav-links { display: flex; gap: 0.15rem; }
   nav .nav-links a {
-    color: var(--text-dim); text-decoration: none; font-size: 0.8rem; font-weight: 500;
-    padding: 0.4rem 0.75rem; border-radius: 6px; transition: all 0.2s;
+    color: var(--text-dim); text-decoration: none; font-size: 0.78rem; font-weight: 500;
+    padding: 0.35rem 0.7rem; border-radius: 4px; transition: all 0.2s;
   }
-  nav .nav-links a:hover, nav .nav-links a.active { color: var(--text); background: var(--surface); }
+  nav .nav-links a:hover, nav .nav-links a.active { color: var(--navy); background: var(--cream); }
 
-  /* ── HERO ── */
+  /* HERO */
   .hero {
-    min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; padding: 6rem 2rem 4rem;
-    background: radial-gradient(ellipse at 50% 30%, rgba(37,99,235,0.04) 0%, transparent 60%);
-    position: relative;
-  }
-  .hero::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    align-items: flex-start; padding: 6rem 2rem 4rem;
+    max-width: 1100px; margin: 0 auto; position: relative;
   }
   .hero .tag {
-    font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 1.5rem;
-    background: var(--accent-glow); padding: 0.4rem 1rem; border-radius: 20px;
-    border: 1px solid rgba(37,99,235,0.15);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--terra); margin-bottom: 2rem;
   }
   .hero h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1.1;
-    margin-bottom: 1.5rem; max-width: 800px;
-    background: linear-gradient(135deg, #1a1a2e 30%, var(--accent));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.08;
+    margin-bottom: 1.5rem; max-width: 700px; color: var(--navy);
   }
   .hero .subtitle {
-    font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-dim); max-width: 680px;
+    font-size: 1.1rem; color: var(--text-dim); max-width: 620px;
     line-height: 1.7; margin-bottom: 2.5rem;
   }
   .hero .meta { font-size: 0.85rem; color: var(--text-dim); }
-  .hero .meta span { color: var(--text); font-weight: 500; }
-  .scroll-hint {
-    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-    animation: bounce 2s infinite; color: var(--text-dim); font-size: 0.75rem;
-    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  .hero .meta span { color: var(--navy); font-weight: 600; }
+  .hero .corner-label {
+    position: absolute; bottom: 3rem; right: 2rem;
+    background: var(--navy); color: var(--cream); padding: 1rem 1.25rem;
+    font-size: 0.75rem; font-weight: 500; text-align: center; line-height: 1.4;
+    border-radius: 2px;
   }
-  @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
 
-  /* ── SECTIONS ── */
+  /* SECTIONS */
   section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; position: relative; }
   section::before {
-    content: ''; position: absolute; top: 0; left: 2rem; right: 2rem; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: var(--border);
   }
-
   .section-label {
-    font-size: 0.7rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--terra); margin-bottom: 0.75rem;
   }
   .section-title {
-    font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 700; margin-bottom: 1rem;
-    line-height: 1.2;
+    font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; margin-bottom: 1rem;
+    line-height: 1.15; color: var(--navy); font-style: italic;
   }
   .section-subtitle {
-    font-size: 1rem; color: var(--text-dim); max-width: 700px; margin-bottom: 2.5rem;
+    font-size: 0.95rem; color: var(--text-dim); max-width: 680px; margin-bottom: 2.5rem;
     line-height: 1.7;
   }
 
-  /* ── GOAL CARDS ── */
+  /* GOAL CARDS */
   .goal-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem; margin-top: 2rem;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem;
   }
+  @media (max-width: 800px) { .goal-grid { grid-template-columns: 1fr; } }
   .goal-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.75rem; transition: all 0.3s;
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 1.75rem; position: relative;
   }
-  .goal-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
   .goal-card .num {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 500;
-    color: var(--accent); margin-bottom: 0.75rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 500;
+    color: var(--terra); margin-bottom: 0.75rem; letter-spacing: 1px;
   }
-  .goal-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
-  .goal-card p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.65; }
+  .goal-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif; }
+  .goal-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.65; }
 
-  /* ── AGENDA ── */
-  .agenda-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+  /* AGENDA */
+  .agenda-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem; }
   .agenda-item {
     display: flex; align-items: flex-start; gap: 1.25rem;
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.5rem; transition: border-color 0.3s;
-  }
-  .agenda-item:hover { border-color: var(--accent); }
-  .agenda-item .step {
-    font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700;
-    color: var(--accent); min-width: 2.5rem;
-  }
-  .agenda-item h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
-  .agenda-item p { font-size: 0.85rem; color: var(--text-dim); }
-
-  /* ── BOTTLENECK ── */
-  .bottleneck-visual {
-    display: flex; align-items: center; gap: 0; margin: 2.5rem 0;
-    overflow-x: auto; padding-bottom: 1rem;
-  }
-  .bn-stage {
-    text-align: center; padding: 1rem 1.25rem; border-radius: 10px;
     background: var(--surface); border: 1px solid var(--border);
-    min-width: 140px; transition: all 0.3s; flex-shrink: 0;
+    padding: 1.25rem 1.5rem;
   }
-  .bn-stage.highlight {
-    background: rgba(217, 119, 6, 0.06); border-color: var(--amber);
-    box-shadow: 0 0 20px rgba(217, 119, 6, 0.06);
+  .agenda-item .step {
+    font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 700;
+    color: var(--navy); min-width: 2.5rem;
   }
-  .bn-stage h4 { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.25rem; }
-  .bn-stage .badge {
-    font-size: 0.65rem; padding: 0.2rem 0.5rem; border-radius: 10px;
-    background: var(--surface-2); color: var(--text-dim); display: inline-block;
-  }
-  .bn-stage.highlight .badge { background: rgba(217,119,6,0.1); color: var(--amber); }
-  .bn-arrow { color: var(--text-dim); font-size: 1.2rem; padding: 0 0.5rem; flex-shrink: 0; }
+  .agenda-item h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; font-family: 'Inter', sans-serif; }
+  .agenda-item p { font-size: 0.82rem; color: var(--text-dim); }
 
+  /* CALLOUT */
+  .callout {
+    background: var(--cream); border-left: 3px solid var(--terra);
+    padding: 1.25rem 1.5rem; margin: 1.5rem 0;
+    font-size: 0.88rem; color: var(--text); line-height: 1.6;
+  }
+
+  /* DD TRACKS */
   .dd-tracks {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 0.75rem; margin: 2rem 0;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; margin: 2rem 0;
   }
+  @media (max-width: 700px) { .dd-tracks { grid-template-columns: repeat(2, 1fr); } }
   .dd-track {
-    text-align: center; padding: 1rem; background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; font-size: 0.85rem; font-weight: 500;
+    text-align: center; padding: 1rem; background: var(--surface);
+    border: 1px solid var(--border); font-size: 0.82rem; font-weight: 500;
   }
-  .dd-track .icon { font-size: 1.25rem; margin-bottom: 0.5rem; }
 
-  /* ── DEMO EMBED ── */
+  /* 2x2 PRIORITIZATION MATRIX (slide 4 style) */
+  .matrix-container { margin: 2.5rem 0; position: relative; }
+  .matrix-axes {
+    display: grid; grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; gap: 0;
+  }
+  .matrix-y-label {
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    font-size: 0.72rem; font-weight: 600; color: var(--text-dim);
+    display: flex; align-items: center; justify-content: center;
+    padding-right: 0.75rem; letter-spacing: 1px;
+  }
+  .matrix-grid {
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+  }
+  .matrix-cell {
+    padding: 1.5rem; position: relative;
+  }
+  .matrix-cell h4 {
+    font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .matrix-cell ul { list-style: none; }
+  .matrix-cell li {
+    font-size: 0.8rem; color: var(--text-dim); padding: 0.2rem 0;
+    padding-left: 0.75rem; position: relative; line-height: 1.5;
+  }
+  .matrix-cell li::before {
+    content: '-'; position: absolute; left: 0; color: var(--text-dim);
+  }
+  .matrix-cell.top-left { background: var(--sage-light); border-left: 3px solid var(--sage); }
+  .matrix-cell.top-right { background: var(--surface); border-left: 3px solid var(--navy); }
+  .matrix-cell.bottom-left { background: var(--surface); }
+  .matrix-cell.bottom-right { background: var(--terra-light); border-left: 3px solid var(--terra); }
+  .matrix-x-label {
+    grid-column: 2; text-align: center; padding-top: 0.75rem;
+    font-size: 0.72rem; font-weight: 600; color: var(--text-dim); letter-spacing: 1px;
+  }
+  .matrix-takeaway {
+    margin-top: 1.5rem; padding: 1rem 1.5rem; border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .matrix-takeaway strong { font-weight: 600; }
+
+  /* DEMO EMBED */
   .demo-section {
     padding: 4rem 2rem; max-width: 1300px; margin: 0 auto; position: relative;
   }
   .demo-section::before {
-    content: ''; position: absolute; top: 0; left: 2rem; right: 2rem; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: var(--border);
   }
-  .demo-header {
-    text-align: center; margin-bottom: 2rem;
-  }
+  .demo-header { margin-bottom: 2rem; }
   .demo-tag {
+    font-family: 'JetBrains Mono', monospace;
     display: inline-flex; align-items: center; gap: 0.5rem;
-    font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--green); margin-bottom: 0.75rem;
-    background: rgba(5,150,105,0.06); padding: 0.4rem 1rem; border-radius: 20px;
-    border: 1px solid rgba(5,150,105,0.15);
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 0.75rem;
   }
-  .demo-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  .demo-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-  .demo-header h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; }
-  .demo-header p { color: var(--text-dim); font-size: 0.95rem; }
+  .demo-header h2 {
+    font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 0.5rem; font-style: italic;
+  }
+  .demo-header p { color: var(--text-dim); font-size: 0.9rem; }
   .demo-frame-wrap {
-    border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-    background: var(--surface);
+    overflow: hidden; border: 1px solid var(--border); background: var(--surface);
   }
   .demo-frame-bar {
-    display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem;
-    background: var(--surface-2); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem;
+    background: var(--cream); border-bottom: 1px solid var(--border);
   }
   .demo-frame-bar .dots { display: flex; gap: 6px; }
   .demo-frame-bar .dots span { width: 10px; height: 10px; border-radius: 50%; }
-  .demo-frame-bar .dots span:nth-child(1) { background: #ff5f57; }
-  .demo-frame-bar .dots span:nth-child(2) { background: #febc2e; }
-  .demo-frame-bar .dots span:nth-child(3) { background: #28c840; }
+  .demo-frame-bar .dots span:nth-child(1) { background: #D4A59A; }
+  .demo-frame-bar .dots span:nth-child(2) { background: #C9B97E; }
+  .demo-frame-bar .dots span:nth-child(3) { background: #8FAF8A; }
   .demo-frame-bar .url {
-    flex: 1; text-align: center; font-size: 0.75rem; color: var(--text-dim);
+    flex: 1; text-align: center; font-size: 0.72rem; color: var(--text-dim);
     font-family: 'JetBrains Mono', monospace;
   }
   .demo-frame-bar .open-link {
-    font-size: 0.7rem; color: var(--accent); text-decoration: none; font-weight: 500;
-    padding: 0.25rem 0.6rem; border: 1px solid var(--accent); border-radius: 6px;
-    transition: all 0.2s;
+    font-size: 0.68rem; color: var(--navy); text-decoration: none; font-weight: 500;
+    padding: 0.2rem 0.5rem; border: 1px solid var(--border); transition: all 0.2s;
+    font-family: 'JetBrains Mono', monospace;
   }
-  .demo-frame-bar .open-link:hover { background: var(--accent); color: #fff; }
-  .demo-frame-wrap iframe {
-    width: 100%; height: 700px; border: none; background: #fff;
-  }
+  .demo-frame-bar .open-link:hover { background: var(--navy); color: var(--cream); }
+  .demo-frame-wrap iframe { width: 100%; height: 700px; border: none; background: #fff; }
 
-  /* ── SYSTEMS GRID ── */
+  /* SYSTEMS GRID */
   .systems-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.25rem; margin-top: 2rem;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border); margin-top: 2rem;
   }
-  .system-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.75rem; position: relative; overflow: hidden;
+  @media (max-width: 800px) { .systems-grid { grid-template-columns: 1fr 1fr; } }
+  .system-card { background: var(--surface); padding: 1.75rem; }
+  .system-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; font-family: 'Inter', sans-serif; }
+  .system-card .sys-role {
+    font-size: 0.72rem; color: var(--sage); font-weight: 500; margin-bottom: 0.75rem;
+    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
   }
-  .system-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  }
-  .system-card:nth-child(1)::before { background: var(--accent); }
-  .system-card:nth-child(2)::before { background: var(--teal); }
-  .system-card:nth-child(3)::before { background: var(--amber); }
-  .system-card:nth-child(4)::before { background: var(--green); }
-  .system-card .sys-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
-  .system-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
-  .system-card .sys-role { font-size: 0.75rem; color: var(--accent); font-weight: 500; margin-bottom: 0.75rem; }
-  .system-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+  .system-card p { font-size: 0.83rem; color: var(--text-dim); line-height: 1.6; }
 
-  /* ── SYNC FLOW ── */
+  /* SYNC FLOW */
   .sync-flow {
     display: flex; align-items: center; justify-content: center; gap: 0;
     margin: 2.5rem 0; flex-wrap: wrap;
   }
   .sync-node {
-    text-align: center; padding: 1.5rem 2rem; background: var(--surface);
-    border: 1px solid var(--border); border-radius: 12px; min-width: 200px;
+    text-align: center; padding: 1.25rem 2rem; background: var(--surface);
+    border: 1px solid var(--border); min-width: 180px;
   }
-  .sync-node h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.25rem; }
-  .sync-node .role { font-size: 0.75rem; color: var(--text-dim); }
+  .sync-node h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 0.2rem; font-family: 'Inter', sans-serif; }
+  .sync-node .role { font-size: 0.72rem; color: var(--text-dim); }
   .sync-arrow {
-    display: flex; flex-direction: column; align-items: center; padding: 0 0.75rem;
-    color: var(--accent); font-size: 0.7rem; font-weight: 500;
+    display: flex; flex-direction: column; align-items: center; padding: 0 0.5rem;
+    color: var(--navy); font-size: 0.65rem; font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
   }
   .sync-arrow .arrow { font-size: 1.25rem; }
 
-  /* ── AUTOMATE vs HUMAN ── */
+  /* AUTOMATE vs HUMAN (slide 7 style - horizontal bars) */
   .auto-human {
     display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;
   }
   @media (max-width: 700px) { .auto-human { grid-template-columns: 1fr; } }
-  .auto-col {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.75rem;
-  }
+  .auto-col { background: var(--surface); border: 1px solid var(--border); padding: 1.75rem; }
   .auto-col h3 {
-    font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
     margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
   }
-  .auto-col h3 .indicator { width: 8px; height: 8px; border-radius: 50%; }
-  .auto-col:first-child h3 .indicator { background: var(--teal); }
-  .auto-col:last-child h3 .indicator { background: var(--amber); }
+  .auto-col h3 .indicator { width: 12px; height: 4px; }
+  .auto-col:first-child h3 .indicator { background: var(--sage); }
+  .auto-col:last-child h3 .indicator { background: var(--terra); }
   .auto-col ul { list-style: none; }
   .auto-col li {
-    font-size: 0.85rem; color: var(--text-dim); padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border);
-    padding-left: 1.25rem; position: relative;
+    font-size: 0.83rem; color: var(--text-dim); padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-light);
+    padding-left: 1rem; position: relative;
   }
   .auto-col li:last-child { border: none; }
   .auto-col li::before {
     content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    width: 5px; height: 5px; border-radius: 50%;
+    width: 4px; height: 4px; border-radius: 50%;
   }
-  .auto-col:first-child li::before { background: var(--teal); }
-  .auto-col:last-child li::before { background: var(--amber); }
+  .auto-col:first-child li::before { background: var(--sage); }
+  .auto-col:last-child li::before { background: var(--terra); }
 
-  /* ── COLLAB CARDS ── */
+  /* COLLAB */
   .collab-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.25rem; margin-top: 2rem;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border); margin-top: 2rem;
   }
-  .collab-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.5rem; transition: border-color 0.3s;
-  }
-  .collab-card:hover { border-color: var(--accent); }
-  .collab-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
-  .collab-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+  @media (max-width: 700px) { .collab-grid { grid-template-columns: 1fr; } }
+  .collab-card { background: var(--surface); padding: 1.5rem; }
+  .collab-card h3 { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif; }
+  .collab-card p { font-size: 0.83rem; color: var(--text-dim); line-height: 1.6; }
 
-  /* ── ADOPTION ── */
+  .internal-rhythm {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 1.5rem; margin-top: 1.5rem;
+  }
+  .internal-rhythm h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif; }
+  .internal-rhythm p { font-size: 0.83rem; color: var(--text-dim); line-height: 1.6; }
+
+  /* ADOPTION */
   .adoption-steps {
     display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;
     position: relative; padding-left: 2rem;
   }
   .adoption-steps::before {
-    content: ''; position: absolute; left: 0.55rem; top: 0.5rem; bottom: 0.5rem;
-    width: 2px; background: var(--border);
+    content: ''; position: absolute; left: 0.45rem; top: 0.5rem; bottom: 0.5rem;
+    width: 1px; background: var(--border);
   }
   .adoption-step { position: relative; }
   .adoption-step .dot {
-    position: absolute; left: -2rem; top: 0.35rem; width: 14px; height: 14px;
-    border-radius: 50%; background: var(--surface-2); border: 2px solid var(--accent);
+    position: absolute; left: -2rem; top: 0.35rem; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--cream); border: 2px solid var(--navy);
   }
-  .adoption-step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; }
-  .adoption-step p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.65; max-width: 650px; }
+  .adoption-step h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; font-family: 'Inter', sans-serif; }
+  .adoption-step p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.65; max-width: 650px; }
 
-  /* ── METRICS + ROADMAP ── */
+  /* KPI CARDS (slide 13 style - gauge/bar/donut) */
+  .kpi-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border); margin: 2rem 0;
+  }
+  @media (max-width: 700px) { .kpi-row { grid-template-columns: 1fr; } }
+  .kpi-card {
+    background: var(--surface); padding: 2rem; text-align: center;
+  }
+  .kpi-card h4 {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 1.25rem; font-style: italic;
+  }
+  .kpi-visual { margin-bottom: 1rem; }
+
+  /* Gauge */
+  .gauge-wrap { position: relative; width: 120px; height: 70px; margin: 0 auto; }
+  .gauge-bg {
+    width: 120px; height: 60px; border-radius: 60px 60px 0 0;
+    background: var(--cream); border: 3px solid var(--border);
+    border-bottom: none; position: relative; overflow: hidden;
+  }
+  .gauge-fill {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 100%;
+    background: linear-gradient(to right, var(--sage), var(--navy));
+    clip-path: polygon(0 100%, 50% 20%, 100% 100%);
+    opacity: 0.3;
+  }
+  .gauge-needle {
+    position: absolute; bottom: 0; left: 50%; width: 2px; height: 50px;
+    background: var(--terra); transform-origin: bottom center; transform: rotate(-20deg);
+  }
+  .gauge-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-dim);
+    margin-top: 0.35rem; text-align: center;
+  }
+
+  /* Bar chart */
+  .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 80px; justify-content: center; }
+  .bar-chart .bar {
+    width: 18px; background: var(--navy); border-radius: 2px 2px 0 0;
+    position: relative;
+  }
+  .bar-chart .bar.alert { background: var(--terra); }
+
+  /* Donut */
+  .donut-wrap { position: relative; width: 100px; height: 100px; margin: 0 auto; }
+  .donut-ring {
+    width: 100px; height: 100px; border-radius: 50%;
+    background: conic-gradient(var(--sage) 0deg, var(--sage) 306deg, var(--cream-dark) 306deg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .donut-hole {
+    width: 64px; height: 64px; border-radius: 50%; background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--navy);
+  }
+
+  .kpi-title {
+    font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+    color: var(--navy); margin-bottom: 0.35rem;
+  }
+  .kpi-desc {
+    font-size: 0.75rem; color: var(--text-dim); line-height: 1.5;
+  }
+
+  /* STAIRCASE TIMELINE (slide 14 style) */
+  .staircase { margin-top: 2.5rem; position: relative; }
+  .staircase-title {
+    font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 0.75rem; font-style: italic;
+  }
+  .staircase-intro {
+    font-size: 0.92rem; color: var(--text-dim); margin-bottom: 2.5rem; line-height: 1.7; max-width: 680px;
+  }
+  .staircase-steps {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0; position: relative;
+  }
+  .stair-step {
+    background: var(--surface); border: 1px solid var(--border); padding: 2rem;
+    position: relative;
+  }
+  .stair-step:first-child { border-right: none; }
+  .stair-label {
+    display: inline-block; padding: 0.3rem 0.75rem; font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stair-step:first-child .stair-label { background: var(--sage); color: #fff; }
+  .stair-step:last-child .stair-label { background: var(--terra); color: #fff; }
+  .stair-step h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 0.75rem;
+  }
+  .stair-step .stair-tagline {
+    font-size: 0.82rem; color: var(--terra); font-style: italic; margin-bottom: 0.75rem;
+  }
+  .stair-step p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.65; }
+
+  /* DISCOVERY */
+  .discovery-list {
+    background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; margin-top: 1.5rem;
+  }
+  .discovery-list h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; font-family: 'Inter', sans-serif; }
+  .discovery-list ol { padding-left: 1.25rem; }
+  .discovery-list li { font-size: 0.83rem; color: var(--text-dim); padding: 0.3rem 0; line-height: 1.5; }
+
+  /* DASHBOARDS */
   .dashboards-row {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 2rem 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--border); border: 1px solid var(--border); margin: 2rem 0;
   }
   @media (max-width: 700px) { .dashboards-row { grid-template-columns: 1fr; } }
-  .dash-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.5rem;
+  .dash-card { background: var(--surface); padding: 1.5rem; }
+  .dash-card h3 { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.25rem; font-family: 'Inter', sans-serif; }
+  .dash-card .dash-q {
+    font-size: 0.78rem; color: var(--terra); font-style: italic; margin-bottom: 0.75rem;
+    font-family: 'Playfair Display', serif;
   }
-  .dash-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
-  .dash-card .dash-q { font-size: 0.8rem; color: var(--accent); font-style: italic; margin-bottom: 0.75rem; }
-  .dash-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
+  .dash-card p { font-size: 0.83rem; color: var(--text-dim); line-height: 1.5; }
 
-  .indicators { margin: 2rem 0; }
-  .indicators h3 {
-    font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 1rem;
-  }
-  .indicator-list {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.6rem;
-  }
-  .indicator-item {
-    font-size: 0.85rem; color: var(--text-dim); padding: 0.6rem 0.75rem;
-    background: var(--surface); border-radius: 8px; border-left: 3px solid var(--accent);
-  }
-
-  .roadmap { margin-top: 2.5rem; }
-  .roadmap h3 {
-    font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem;
-  }
-  .roadmap-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;
-  }
-  .rm-phase {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.5rem; position: relative;
-  }
-  .rm-phase .weeks {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 500;
-    color: var(--accent); margin-bottom: 0.5rem; letter-spacing: 0.5px;
-  }
-  .rm-phase h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
-  .rm-phase p { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; }
-
-  /* ── FOOTER ── */
+  /* FOOTER */
   footer {
     text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border);
-    color: var(--text-dim); font-size: 0.8rem;
+    color: var(--text-dim); font-size: 0.78rem;
   }
-  footer a { color: var(--accent); text-decoration: none; }
+  footer strong { color: var(--navy); }
+  footer a { color: var(--navy); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
 
-  /* ── CALLOUT ── */
-  .callout {
-    background: var(--accent-glow); border: 1px solid rgba(108,140,255,0.2);
-    border-radius: 10px; padding: 1.25rem 1.5rem; margin: 1.5rem 0;
-    font-size: 0.9rem; color: var(--text); line-height: 1.6;
-  }
-
-  /* ── TOC (Table of Contents sidebar) ── */
+  /* TOC */
   .toc {
     position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%);
     z-index: 90; display: flex; flex-direction: column; gap: 0.35rem;
   }
   .toc a {
-    width: 8px; height: 8px; border-radius: 50%; background: var(--border);
+    width: 6px; height: 6px; border-radius: 50%; background: var(--border);
     display: block; transition: all 0.3s; position: relative;
   }
-  .toc a:hover, .toc a.active { background: var(--accent); transform: scale(1.4); }
+  .toc a:hover, .toc a.active { background: var(--navy); transform: scale(1.5); }
   .toc a:hover::before {
     content: attr(data-label); position: absolute; right: 1.25rem; top: 50%;
-    transform: translateY(-50%); font-size: 0.7rem; color: var(--text);
-    background: var(--surface); padding: 0.25rem 0.6rem; border-radius: 4px;
+    transform: translateY(-50%); font-size: 0.68rem; color: var(--text);
+    background: var(--cream); padding: 0.25rem 0.6rem;
     white-space: nowrap; border: 1px solid var(--border);
   }
   @media (max-width: 900px) { .toc { display: none; } }
 
-  /* ── PRIORITIZATION ── */
-  .priority-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem; margin: 2rem 0;
-  }
-  .priority-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;
-  }
-  .priority-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--amber); }
-  .priority-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
-
-  .discovery-list {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.5rem; margin-top: 1.5rem;
-  }
-  .discovery-list h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; }
-  .discovery-list ol { padding-left: 1.25rem; }
-  .discovery-list li { font-size: 0.85rem; color: var(--text-dim); padding: 0.35rem 0; line-height: 1.5; }
-
-  .internal-rhythm {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.5rem; margin-top: 1.5rem;
-  }
-  .internal-rhythm h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
-  .internal-rhythm p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
-
-  /* fade in */
+  /* FADE IN */
   .fade-in {
     opacity: 0; transform: translateY(20px);
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -433,9 +502,8 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <div class="brand">CRUX BIZOPS — CASE STUDY</div>
+  <div class="brand">Crux BizOps Case Study</div>
   <div class="nav-links">
     <a href="#goal">Goal</a>
     <a href="#problem">Problem</a>
@@ -447,7 +515,6 @@
   </div>
 </nav>
 
-<!-- TOC dots -->
 <div class="toc">
   <a href="#hero" data-label="Home"></a>
   <a href="#goal" data-label="Goal"></a>
@@ -462,19 +529,16 @@
   <a href="#automation" data-label="Automation"></a>
   <a href="#collaboration" data-label="Collaboration"></a>
   <a href="#adoption" data-label="Adoption"></a>
-  <a href="#roadmap" data-label="Metrics & Roadmap"></a>
+  <a href="#roadmap" data-label="Metrics"></a>
 </div>
 
 <!-- HERO -->
 <div class="hero" id="hero">
-  <div class="tag">Crux Investments · BizOps Lead Case Study</div>
+  <div class="tag">Crux Investments &middot; BizOps Lead Case Study</div>
   <h1>Scaling the Investment Deal Pipeline</h1>
-  <p class="subtitle">Designing the systems and infrastructure to take Crux's Investments team from intake through close at 3–4× volume</p>
-  <p class="meta"><span>Wenqing Zhang</span> · March 2026</p>
-  <div class="scroll-hint">
-    <span>Scroll to explore</span>
-    <span>↓</span>
-  </div>
+  <p class="subtitle">Designing the systems and infrastructure to take Crux's Investments team from intake through close at 3-4x volume</p>
+  <p class="meta"><span>Wenqing Zhang</span> &middot; March 2026</p>
+  <div class="corner-label">Operational<br>Architecture<br>Kickoff</div>
 </div>
 
 <!-- GOAL -->
@@ -482,7 +546,7 @@
   <div class="fade-in">
     <div class="section-label">Goal of Today's Session</div>
     <div class="section-title">A central system designed for people</div>
-    <div class="section-subtitle">Tax equity and preferred equity deals run on hard timelines, parallel workstreams, and external parties that don't share the same system. At 3–4× volume, coordination gaps carry real financial consequences.</div>
+    <div class="section-subtitle">Tax equity and preferred equity deals run on hard timelines, parallel workstreams, and external parties that don't share the same system. At 3-4x volume, coordination gaps carry real financial consequences.</div>
     <div class="goal-grid">
       <div class="goal-card">
         <div class="num">01</div>
@@ -539,7 +603,7 @@
         </div>
       </div>
     </div>
-    <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-dim); font-style: italic;">Format: Internal project kickoff , please interrupt with questions as we go.</p>
+    <p style="margin-top: 1.5rem; font-size: 0.83rem; color: var(--text-dim); font-style: italic;">Format: Internal project kickoff , please interrupt with questions as we go.</p>
   </div>
 </section>
 
@@ -547,14 +611,14 @@
 <section id="problem" style="max-width: 1300px;">
   <div class="fade-in">
     <div class="section-label">01  Problem Identification</div>
-    <div class="section-title">Diagnosing the Pipeline: Where 3× Volume Will Break</div>
+    <div class="section-title">Diagnosing the Pipeline: Where 3x Volume Will Break</div>
     <div class="section-subtitle">Mapping each pipeline stage to its current operational gap and the risk it introduces at scale. Click each stage below to explore.</div>
   </div>
   <div class="demo-frame-wrap fade-in" style="margin-top: 2rem;" id="demo-stagegate">
     <div class="demo-frame-bar">
       <div class="dots"><span></span><span></span><span></span></div>
       <div class="url">capable-malabi-6e3b0c.netlify.app</div>
-      <a href="https://capable-malabi-6e3b0c.netlify.app/" target="_blank" rel="noopener" class="open-link">Open ↗</a>
+      <a href="https://capable-malabi-6e3b0c.netlify.app/" target="_blank" rel="noopener" class="open-link">Open</a>
     </div>
     <iframe src="https://capable-malabi-6e3b0c.netlify.app/" loading="lazy" title="Stage Gate Prototype"></iframe>
   </div>
@@ -577,27 +641,49 @@
   </div>
 </section>
 
-<!-- PRIORITIZATION -->
+<!-- PRIORITIZATION (slide 4 style: 2x2 matrix) -->
 <section id="prioritization">
   <div class="fade-in">
     <div class="section-label">01  Prioritization + Discovery</div>
-    <div class="section-title">How to prioritize and what to ask first</div>
-    <div class="priority-grid">
-      <div class="priority-card">
-        <h3>Where are the delays?</h3>
-        <p>Start with the stage that creates the most delays, takes the longest, and has the biggest downstream impact. That's due diligence.</p>
+    <div class="section-title">Prioritizing Bottlenecks for Immediate Impact</div>
+    <div class="matrix-container">
+      <div class="matrix-axes">
+        <div class="matrix-y-label">Impact on Deal Velocity &rarr;</div>
+        <div class="matrix-grid">
+          <div class="matrix-cell top-left">
+            <h4>Quick Wins</h4>
+            <ul>
+              <li>Standardize pipeline stages</li>
+              <li>Automated intake and alerts</li>
+            </ul>
+          </div>
+          <div class="matrix-cell top-right">
+            <h4>Strategic Bets</h4>
+            <ul>
+              <li>Predictive pipeline analytics</li>
+              <li>External counsel integrations</li>
+            </ul>
+          </div>
+          <div class="matrix-cell bottom-left">
+            <h4>Low Hanging Fruit</h4>
+            <ul>
+              <li>Inbox routing rules</li>
+              <li>Template standardization</li>
+            </ul>
+          </div>
+          <div class="matrix-cell bottom-right">
+            <h4>De-prioritize</h4>
+            <ul>
+              <li>Custom-built CRM interfaces</li>
+              <li>Complex approval routing</li>
+            </ul>
+          </div>
+        </div>
+        <div class="matrix-x-label">Time-to-Implement &rarr;</div>
       </div>
-      <div class="priority-card">
-        <h3>Where does delay carry cost?</h3>
-        <p>Delay can be financially costly. Operational shortfalls in close are not scheduling friction, when do they have direct commercial impact?</p>
+      <div class="matrix-takeaway">
+        <strong>Takeaway:</strong> We focus unremittingly on the Top-Left to buy the team immediate bandwidth, then build the Top-Right to scale the machine.
       </div>
-      <div class="priority-card">
-        <h3>Which fix enables the most?</h3>
-        <p>Structured intake improves every downstream stage. HubSpot as SSOT makes dashboards possible. Get the foundation right first.</p>
-      </div>
-    </div>
-    <div style="margin: 1.5rem 0; padding: 1rem 1.5rem; background: var(--surface); border-radius: 10px; border: 1px solid var(--border);">
-      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent);">Intake + HubSpot → DD workspace → IC prep → Reporting</p>
     </div>
     <div class="discovery-list">
       <h3>First two weeks: what I would ask</h3>
@@ -608,7 +694,7 @@
         <li>What does leadership most wish it could see that it currently cannot?</li>
         <li>Who on the team would want to help design the new system?</li>
       </ol>
-      <p style="margin-top: 0.75rem; font-size: 0.82rem; color: var(--text-dim); font-style: italic;">I'd also shadow 2–3 deal reviews and map where deals actually live today.</p>
+      <p style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-dim); font-style: italic;">I'd also shadow 2-3 deal reviews and map where deals actually live today.</p>
     </div>
   </div>
 </section>
@@ -656,7 +742,7 @@
         <div class="role">Execution workspace</div>
       </div>
       <div class="sync-arrow">
-        <span class="arrow">→</span>
+        <span class="arrow">&rarr;</span>
         <span>n8n sync</span>
       </div>
       <div class="sync-node">
@@ -664,7 +750,7 @@
         <div class="role">Automation layer</div>
       </div>
       <div class="sync-arrow">
-        <span class="arrow">→</span>
+        <span class="arrow">&rarr;</span>
         <span>instant</span>
       </div>
       <div class="sync-node">
@@ -687,7 +773,7 @@
     <div class="demo-frame-bar">
       <div class="dots"><span></span><span></span><span></span></div>
       <div class="url">deluxe-douhua-546464.netlify.app</div>
-      <a href="https://deluxe-douhua-546464.netlify.app/" target="_blank" rel="noopener" class="open-link">Open ↗</a>
+      <a href="https://deluxe-douhua-546464.netlify.app/" target="_blank" rel="noopener" class="open-link">Open</a>
     </div>
     <iframe src="https://deluxe-douhua-546464.netlify.app/" loading="lazy" title="Pipeline Dashboard Prototype"></iframe>
   </div>
@@ -788,47 +874,85 @@
   </div>
 </section>
 
-<!-- METRICS + ROADMAP -->
+<!-- METRICS -->
 <section id="roadmap">
   <div class="fade-in">
     <div class="section-label">04  Metrics & Visibility</div>
-    <div class="section-title">What I'd actually track and why it matters</div>
+    <div class="section-title">Instrumenting the Pipeline: KPIs & Visibility</div>
+
+    <!-- KPI cards (slide 13 style) -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <h4>Deal Velocity</h4>
+        <div class="kpi-visual">
+          <div class="gauge-wrap">
+            <div class="gauge-bg">
+              <div class="gauge-fill"></div>
+              <div class="gauge-needle"></div>
+            </div>
+            <div class="gauge-label">Optimal Zone</div>
+          </div>
+        </div>
+        <div class="kpi-title">Time-in-Stage</div>
+        <div class="kpi-desc">Leading indicator of bottlenecks. Alerts leadership automatically if a deal stalls in any stage beyond x days.</div>
+      </div>
+      <div class="kpi-card">
+        <h4>Team Capacity</h4>
+        <div class="kpi-visual">
+          <div class="bar-chart">
+            <div class="bar" style="height: 30px;"></div>
+            <div class="bar" style="height: 40px;"></div>
+            <div class="bar" style="height: 55px;"></div>
+            <div class="bar" style="height: 65px;"></div>
+            <div class="bar alert" style="height: 78px;"></div>
+          </div>
+        </div>
+        <div class="kpi-title">Active Deals per FTE</div>
+        <div class="kpi-desc">Prevents burnout by triggering proactive hiring or contractor support before balls are dropped.</div>
+      </div>
+      <div class="kpi-card">
+        <h4>Data Integrity Score</h4>
+        <div class="kpi-visual">
+          <div class="donut-wrap">
+            <div class="donut-ring">
+              <div class="donut-hole">85%</div>
+            </div>
+          </div>
+        </div>
+        <div class="kpi-title">CRM Field Completeness</div>
+        <div class="kpi-desc">% of mandatory CRM fields auto-filled vs. manually edited. Measures the health and accuracy of the automation layer.</div>
+      </div>
+    </div>
+
     <div class="dashboards-row">
       <div class="dash-card">
         <h3>Leadership dashboard</h3>
         <div class="dash-q">"Where do we stand and what's at risk?"</div>
-        <p>Pipeline funnel · projected closes · total value · at-risk flags</p>
+        <p>Pipeline funnel, projected closes, total value, at-risk flags</p>
       </div>
       <div class="dash-card">
         <h3>Deal team dashboard</h3>
         <div class="dash-q">"What do I need to do today?"</div>
-        <p>My active deals · upcoming deadlines · workstream status</p>
+        <p>My active deals, upcoming deadlines, workstream status</p>
       </div>
     </div>
-    <div class="indicators">
-      <h3>Leading Indicators</h3>
-      <div class="indicator-list">
-        <div class="indicator-item">Time per stage by deal and project type</div>
-        <div class="indicator-item">Stage conversion rates, screening more selectively?</div>
-        <div class="indicator-item">Active pipeline value vs. deployment target</div>
-        <div class="indicator-item">Due diligence cycle time by workstream</div>
-        <div class="indicator-item">Team capacity, how many active deals per person across stages</div>
-        <div class="indicator-item">Further divide time, capacity by deal type and deal value</div>
-      </div>
-    </div>
-    <div class="roadmap" id="iteration">
-      <h3>Using Data to Iterate: What "Good" Looks Like</h3>
-      <p style="font-size: 0.92rem; color: var(--text-dim); margin-bottom: 2rem; line-height: 1.7;">The system isn't finished when it launches. Data tells us when to change course: track adoption over usage, watch for workarounds, measure what the system was built to fix, and use Monday reviews as the feedback loop.</p>
-      <div class="dashboards-row">
-        <div class="dash-card" style="border-left: 3px solid var(--teal);">
-          <h3>At 3 months</h3>
-          <div class="dash-q">Adoption and reliability, not perfection.</div>
-          <p>The system is the default way deals move. People use it because it's easier than the alternative, not because they were told to. Leadership has visibility without asking. Alerts are catching real issues.</p>
+
+    <!-- Staircase timeline (slide 14 style) -->
+    <div class="staircase" id="iteration">
+      <div class="staircase-title">The Iteration Horizon: 3 Months vs. 12 Months</div>
+      <div class="staircase-intro">The system isn't finished when it launches. Data tells us when to change course: track adoption over usage, watch for workarounds, measure what the system was built to fix, and use Monday reviews as the feedback loop.</div>
+      <div class="staircase-steps">
+        <div class="stair-step">
+          <div class="stair-label">Month 3</div>
+          <h3>Plugging the Leaks</h3>
+          <div class="stair-tagline">Scrappy, high-impact MVPs deployed.</div>
+          <p>n8n automations live for core intake. HubSpot is standardized as the single source of truth. Manual data entry reduced by an initial x%.</p>
         </div>
-        <div class="dash-card" style="border-left: 3px solid var(--accent);">
-          <h3>At 12 months</h3>
-          <div class="dash-q">Compounding insight, not just better tracking.</div>
-          <p>Enough data to spot patterns and predict outcomes. The system tells you where things are going, not just where they stand. Each iteration was driven by a real signal. The team can't imagine going back.</p>
+        <div class="stair-step">
+          <div class="stair-label">Month 12</div>
+          <h3>The Machine</h3>
+          <div class="stair-tagline">Advanced operational maturity achieved.</div>
+          <p>Predictive pipeline analytics surface stalled deals instantly. AI actively parses historical deal terms for IC comparisons. External cross-functional portals are fully integrated.</p>
         </div>
       </div>
     </div>
@@ -836,38 +960,35 @@
 </section>
 
 <footer>
-  <p><strong>Wenqing Zhang</strong> · March 2026 · Crux BizOps Lead Case Study</p>
+  <p><strong>Wenqing Zhang</strong> &middot; March 2026 &middot; Crux BizOps Lead Case Study</p>
   <p style="margin-top: 0.5rem;">
-    <a href="https://deluxe-douhua-546464.netlify.app/" target="_blank">Pipeline Dashboard</a> ·
+    <a href="https://deluxe-douhua-546464.netlify.app/" target="_blank">Pipeline Dashboard</a> &middot;
     <a href="https://capable-malabi-6e3b0c.netlify.app/" target="_blank">Stage Gate Visualization</a>
   </p>
 </footer>
 
 <script>
-  // Fade-in on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  // TOC active state
   const tocLinks = document.querySelectorAll('.toc a');
   const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
   const tocObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      const link = document.querySelector(`.toc a[href="#${e.target.id}"]`);
+      const link = document.querySelector('.toc a[href="#' + e.target.id + '"]');
       if (link) { if (e.isIntersecting) link.classList.add('active'); else link.classList.remove('active'); }
     });
   }, { threshold: 0.3 });
   sections.forEach(s => tocObserver.observe(s));
 
-  // Nav active state
   const navLinks = document.querySelectorAll('nav .nav-links a');
   const navObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         navLinks.forEach(l => l.classList.remove('active'));
-        const match = document.querySelector(`nav .nav-links a[href="#${e.target.id}"]`);
+        const match = document.querySelector('nav .nav-links a[href="#' + e.target.id + '"]');
         if (match) match.classList.add('active');
       }
     });
